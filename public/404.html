@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página não encontrada · Panificadora Braghetto</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FAF6EE">
+  <style>
+    :root { --farinha: #FAF6EE; --cafe: #2C1A10; --ouro: #8C5318; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 24px; background: var(--farinha); color: var(--cafe); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { width: min(100%, 520px); }
+    img { width: 76px; height: auto; display: block; margin-bottom: 28px; }
+    h1 { margin: 0 0 16px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1.02; font-weight: 600; }
+    h1 em { color: var(--ouro); font-weight: 400; }
+    p { margin: 0 0 28px; font-size: 1.125rem; line-height: 1.5; }
+    a { display: inline-block; padding: 14px 24px; background: var(--cafe); color: var(--farinha); font-weight: 600; text-decoration: none; border-radius: 999px; }
+    a:focus-visible { outline: 3px solid var(--ouro); outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <img id="emblema" src="img/emblema.png" alt="">
+    <h1>Esta página<br><em>saiu do forno.</em></h1>
+    <p>O endereço pode ter mudado ou estar digitado errado. O site da Panificadora Braghetto está logo aqui.</p>
+    <a id="home" href="./">Ir para o início</a>
+  </main>
+  <script>
+    // Servida em qualquer caminho inexistente: monta os links a partir da raiz do projeto.
+    var parts = location.pathname.split('/').filter(Boolean)
+    var base = location.hostname.endsWith('github.io') && parts.length ? '/' + parts[0] + '/' : '/'
+    document.getElementById('home').href = base
+    document.getElementById('emblema').src = base + 'img/emblema.png'
+  </script>
+</body>
+</html>

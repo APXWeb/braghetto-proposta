@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{head}}
+  <script type="module" src="/src/cardapio.js"></script>
+</head>
+<body data-page="cardapio">
+{{header}}
+
+<main id="conteudo">
+  <section class="page-hero menu-hero" aria-labelledby="menu-title">
+    <div class="wrap menu-hero-grid">
+      <div>
+      <p class="eyebrow" data-hero>Panificadora Braghetto</p>
+      <h1 id="menu-title" class="title title-xl" data-hero>O cardápio<br><em>da casa.</em></h1>
+      <p class="hero-lead" data-hero>{{itemCount}} itens entre pães, cafés, salgados, lanches, doces e marmitex. Toque num item para consultar a disponibilidade no WhatsApp da unidade ou levá-lo para a sua encomenda.</p>
+      </div>
+      <div class="quick" data-hero>{{quickLinks}}</div>
+    </div>
+  </section>
+
+  <div class="menu-tools" data-tools>
+    <div class="wrap menu-tools-row">
+      <label class="search">
+        <span class="sr-only">Buscar no cardápio</span>
+        {{i-search}}
+        <input type="search" placeholder="Buscar: coxinha, pão de metro…" autocomplete="off" data-search>
+        <button type="button" class="search-clear" data-search-clear hidden aria-label="Limpar busca">{{i-close}}</button>
+      </label>
+      <nav class="cat-nav" aria-label="Categorias do cardápio"><ul data-cat-nav>{{cardapioNav}}</ul></nav>
+    </div>
+  </div>
+
+  <div class="wrap menu-body">
+    <p class="search-status" role="status" aria-live="polite" data-search-status></p>
+    <div class="search-empty" data-search-empty hidden>
+      <p class="title title-sm">Não encontramos <em data-search-term></em>.</p>
+      <p>O catálogo pode não ter todos os itens do dia. Pergunte direto para a unidade:</p>
+      <div class="empty-actions" data-empty-actions></div>
+    </div>
+    {{cardapioSections}}
+    <aside class="menu-note">
+      <p><strong>Sobre o catálogo.</strong> Os nomes seguem o catálogo publicado pela Braghetto. A produção muda ao longo do dia e da semana, e cada unidade tem a sua: antes de sair de casa, confirme pelo WhatsApp. Preços com a unidade ou, para o marmitex, no <a href="{{orderOnline}}" target="_blank" rel="noopener">pedido online</a>.</p>
+    </aside>
+  </div>
+
+  <section class="menu-cta" aria-labelledby="mcta-title">
+    <div class="wrap menu-cta-grid">
+      <h2 id="mcta-title" class="title title-light">Vai ter festa<br><em>ou reunião?</em></h2>
+      <div>
+        <p class="body-lg">Salgados, bolos, pães de metro e coffee-break por encomenda. Monte o pedido e mande para a unidade mais perto de você.</p>
+        <a class="btn btn-gold btn-lg" href="./encomendas.html#pedido">Fazer encomenda</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog class="sheet" data-sheet aria-labelledby="sheet-title">
+  <form method="dialog" class="sheet-inner">
+    <button class="icon-btn sheet-close" value="close" aria-label="Fechar">{{i-close}}</button>
+    <div class="sheet-photo" data-sheet-photo hidden></div>
+    <p class="eyebrow" data-sheet-cat></p>
+    <h2 id="sheet-title" class="sheet-title" data-sheet-title></h2>
+    <p class="sheet-text" data-sheet-text>Pergunte se tem hoje na unidade que você preferir:</p>
+    <div class="sheet-actions" data-sheet-actions></div>
+    <a class="link-arrow" data-sheet-order href="./encomendas.html#pedido">Incluir na minha encomenda {{i-arrow}}</a>
+  </form>
+</dialog>
+
+{{unitsData}}
+{{footer}}
+{{mobileBar}}
+</body>
+</html>

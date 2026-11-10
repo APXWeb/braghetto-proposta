@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{head}}
+  <script type="module" src="/src/encomendas.js"></script>
+</head>
+<body data-page="encomendas">
+{{header}}
+
+<main id="conteudo">
+  <section class="page-hero enc-hero" aria-labelledby="enc-title">
+    <div class="wrap enc-hero-grid">
+      <div>
+        <p class="eyebrow" data-hero>Encomendas, festas e coffee-break</p>
+        <h1 id="enc-title" class="title title-xl" data-hero>Deixe a mesa<br><em>com a gente.</em></h1>
+        <p class="hero-lead" data-hero>Salgados para festa, bolos confeitados, pães de metro e coffee-break para reuniões e eventos. Conte o que você precisa e a unidade responde com as opções, os valores e a disponibilidade.</p>
+        <div class="hero-actions" data-hero>
+          <a class="btn btn-solid btn-lg" href="#pedido">Montar minha encomenda</a>
+          <a class="btn btn-ghost btn-lg" href="./cardapio.html">Ver o cardápio</a>
+        </div>
+      </div>
+      <div class="enc-hero-photo" data-hero-photo>{{img-enc-hero}}</div>
+    </div>
+  </section>
+
+  <section class="enc-types" aria-labelledby="types-title">
+    <div class="wrap">
+      <h2 id="types-title" class="sr-only">O que encomendar</h2>
+      <div class="types">
+        <article class="type t-wide" data-reveal>
+          <div class="type-photo" data-clip>{{img-enc-salgado}}</div>
+          <div class="type-body">
+            <h3>Salgados para festa</h3>
+            <p>Mini salgados assados (croissants, empadas, esfirras, enrolados) e fritos (coxinha, bolinha de queijo, quibe, risoles, pastel), feitos na cozinha da casa.</p>
+            <a class="link-arrow" href="./cardapio.html#salgados">Ver os salgados {{i-arrow}}</a>
+          </div>
+        </article>
+        <article class="type" data-reveal>
+          <div class="type-photo" data-clip>{{img-enc-doce}}</div>
+          <div class="type-body">
+            <h3>Bolos e doces</h3>
+            <p>Bolos confeitados de 22 sabores, bentô cake personalizado, tortas, pudins, mousses e roscas.</p>
+            <a class="link-arrow" href="./cardapio.html#doces">Ver bolos e doces {{i-arrow}}</a>
+          </div>
+        </article>
+        <article class="type" data-reveal>
+          <div class="type-photo" data-clip>{{img-enc-pao}}</div>
+          <div class="type-body">
+            <h3>Pães de metro</h3>
+            <p>Tradicional, com gergelim, gratinado, de presunto e queijo, lombo, frango, peito de peru, salame, atum e vegetariano.</p>
+            <a class="link-arrow" href="./cardapio.html#lanches">Ver os pães de metro {{i-arrow}}</a>
+          </div>
+        </article>
+        <article class="type t-wide t-flip" data-reveal>
+          <div class="type-photo" data-clip>{{img-enc-cafe}}</div>
+          <div class="type-body">
+            <h3>Coffee-break e eventos</h3>
+            <p>Para reuniões, empresas e eventos. Em setembro de 2026, a Braghetto serviu o coffee-break do 7º Simpósio de Saúde da Família da USP Ribeirão Preto. Peça o cardápio de coffee-break pelo WhatsApp da unidade.</p>
+          </div>
+        </article>
+      </div>
+      <p class="types-note" data-reveal>Em datas especiais a casa monta cardápios próprios, como os de Festa Junina e da Copa em 2026. Fique de olho no <a href="{{instagram}}" target="_blank" rel="noopener">Instagram</a>.</p>
+    </div>
+  </section>
+
+  <section class="how" aria-labelledby="how-title">
+    <div class="wrap how-grid">
+      <h2 id="how-title" class="title" data-reveal>Como<br><em>funciona.</em></h2>
+      <ol class="steps">
+        <li data-reveal><span class="step-n">1</span><div><h3>Conte o que precisa</h3><p>Preencha o formulário abaixo: a data, o tipo de encomenda e os produtos que interessam. Se preferir, a equipe sugere os itens.</p></div></li>
+        <li data-reveal><span class="step-n">2</span><div><h3>Envie para a unidade</h3><p>O pedido segue pronto pelo WhatsApp da unidade que você escolher, ou por e-mail. Nada é enviado sem você confirmar.</p></div></li>
+        <li data-reveal><span class="step-n">3</span><div><h3>A unidade confirma</h3><p>A equipe responde com valores, quantidades e prazos. A encomenda só está feita depois dessa confirmação.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="order-form-sec" id="pedido" aria-labelledby="form-title">
+    <div class="wrap form-grid">
+      <div class="form-side">
+        <h2 id="form-title" class="title" data-reveal>Sua<br><em>encomenda.</em></h2>
+        <p data-reveal>Campos com * são obrigatórios. O resto ajuda a equipe a responder mais rápido.</p>
+        <div class="enc-contacts" data-reveal>
+          <p class="eyebrow">Prefere falar direto?</p>
+          {{encContacts}}
+          <div class="enc-unit">
+            <p class="eyebrow">E-mail</p>
+            <a href="mailto:{{email}}">{{i-mail}} <span>{{email}}</span></a>
+          </div>
+        </div>
+      </div>
+
+      <form class="order-form" novalidate data-order-form>
+        <fieldset class="f-block">
+          <legend>1. Para qual unidade? *</legend>
+          <div class="choices" data-field="unidade">{{unitOptions}}</div>
+          <p class="f-error" data-error-for="unidade" hidden></p>
+        </fieldset>
+
+        <fieldset class="f-block">
+          <legend>2. Seus dados</legend>
+          <div class="f-row">
+            <div class="f">
+              <label for="f-nome">Nome *</label>
+              <input id="f-nome" name="nome" autocomplete="name" required>
+              <p class="f-error" data-error-for="nome" hidden></p>
+            </div>
+            <div class="f">
+              <label for="f-tel">Telefone / WhatsApp *</label>
+              <input id="f-tel" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(16) 90000-0000" required>
+              <p class="f-error" data-error-for="telefone" hidden></p>
+            </div>
+          </div>
+          <div class="f">
+            <label for="f-email">E-mail <span class="opt">opcional</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email">
+            <p class="f-error" data-error-for="email" hidden></p>
+          </div>
+        </fieldset>
+
+        <fieldset class="f-block">
+          <legend>3. A encomenda</legend>
+          <div class="f">
+            <label for="f-tipo">Tipo de encomenda *</label>
+            <select id="f-tipo" name="tipo" required>
+              <option value="">Escolha uma opção</option>
+              <option>Salgados para festa</option>
+              <option>Bolo ou doces</option>
+              <option>Pão de metro</option>
+              <option>Coffee-break / evento</option>
+              <option>Festa de aniversário</option>
+              <option>Festa infantil</option>
+              <option>Outro</option>
+            </select>
+            <p class="f-error" data-error-for="tipo" hidden></p>
+          </div>
+          <div class="f-row f-row-3">
+            <div class="f">
+              <label for="f-data">Data *</label>
+              <input id="f-data" name="data" type="date" required>
+              <p class="f-error" data-error-for="data" hidden></p>
+            </div>
+            <div class="f">
+              <label for="f-hora">Horário <span class="opt">opcional</span></label>
+              <input id="f-hora" name="horario" type="time">
+            </div>
+            <div class="f">
+              <label for="f-pessoas">Pessoas <span class="opt">aprox.</span></label>
+              <input id="f-pessoas" name="pessoas" type="number" min="1" max="2000" inputmode="numeric">
+              <p class="f-error" data-error-for="pessoas" hidden></p>
+            </div>
+          </div>
+          <div class="f">
+            <span class="f-label" id="l-interesse">Produtos de interesse <span class="opt">marque quantos quiser</span></span>
+            <div class="chips" role="group" aria-labelledby="l-interesse">
+              <label class="chip"><input type="checkbox" name="interesse" value="Mini salgados assados"><span>Mini salgados assados</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Mini salgados fritos"><span>Mini salgados fritos</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Bolo confeitado"><span>Bolo confeitado</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Bentô cake"><span>Bentô cake</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Tortas e doces"><span>Tortas e doces</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Pão de metro"><span>Pão de metro</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Pães"><span>Pães</span></label>
+              <label class="chip"><input type="checkbox" name="interesse" value="Cafés e bebidas"><span>Cafés e bebidas</span></label>
+            </div>
+          </div>
+          <div class="f">
+            <span class="f-label" id="l-sugestao">Itens</span>
+            <div class="seg" role="radiogroup" aria-labelledby="l-sugestao">
+              <label><input type="radio" name="sugestao" value="escolher" checked><span>Eu escolho os itens</span></label>
+              <label><input type="radio" name="sugestao" value="sugerir"><span>Quero sugestões da equipe</span></label>
+            </div>
+          </div>
+          <div class="f">
+            <label for="f-itens">Itens e quantidades <span class="opt">opcional</span></label>
+            <textarea id="f-itens" name="itens" rows="3" placeholder="Ex.: 100 coxinhas, 1 pão de metro de lombo, bolo floresta negra para 20 pessoas"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="f-block">
+          <legend>4. Retirada ou entrega</legend>
+          <div class="seg" role="radiogroup" aria-label="Retirada ou entrega">
+            <label><input type="radio" name="entrega" value="retirada" checked><span>Vou retirar na unidade</span></label>
+            <label><input type="radio" name="entrega" value="entrega"><span>Preciso de entrega</span></label>
+          </div>
+          <div class="f" data-endereco hidden>
+            <label for="f-end">Endereço de entrega *</label>
+            <input id="f-end" name="endereco" autocomplete="street-address" placeholder="Rua, número, bairro">
+            <p class="f-hint">A unidade confirma se atende o endereço e informa as condições da entrega.</p>
+            <p class="f-error" data-error-for="endereco" hidden></p>
+          </div>
+          <div class="f">
+            <label for="f-obs">Informações adicionais <span class="opt">opcional</span></label>
+            <textarea id="f-obs" name="obs" rows="3" placeholder="Tema da festa, mensagem no bolo, restrições alimentares…"></textarea>
+          </div>
+        </fieldset>
+
+        <div class="f-submit">
+          <button class="btn btn-solid btn-lg" type="submit" data-send="whatsapp">{{i-wa}} Enviar pelo WhatsApp</button>
+          <button class="btn btn-ghost btn-lg" type="submit" data-send="email">{{i-mail}} Enviar por e-mail</button>
+        </div>
+        <p class="fine">O WhatsApp (ou o seu e-mail) abre com a mensagem pronta; você revisa e envia. Este site não guarda os seus dados.</p>
+        <div class="f-result" data-result hidden tabindex="-1"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+{{unitsData}}
+{{footer}}
+{{mobileBar}}
+</body>
+</html>

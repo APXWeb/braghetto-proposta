@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{head}}
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body data-page="home">
+{{header}}
+
+<main id="conteudo">
+
+  <!-- 1. Abertura -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker" data-hero>Panificadora Braghetto, Ribeirão Preto</p>
+        <h1 id="hero-title" class="hero-title" data-hero>Tradição que faz parte <em>da sua mesa.</em></h1>
+        <p class="hero-lead" data-hero>Pão quentinho desde 1992. Uma padaria de família que cresceu com a cidade e hoje serve café, almoço, encomendas e coffee-break em duas casas.</p>
+        <div class="hero-actions" data-hero>
+          <a class="btn btn-solid btn-lg" href="./cardapio.html">Conheça nosso cardápio</a>
+          <a class="btn btn-ghost btn-lg" href="./encomendas.html">Faça sua encomenda</a>
+        </div>
+        <div data-hero>{{heroUnits}}</div>
+      </div>
+      <div class="hero-media">
+        <div class="hero-oval" data-hero-photo>{{img-hero}}</div>
+        <div class="hero-coin" data-hero-photo>{{img-hero-coin}}</div>
+        <p class="hero-since" data-hero><span>desde</span><strong>1992</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Família -->
+  <section class="intro" aria-labelledby="intro-title">
+    <div class="wrap intro-grid">
+      <div class="intro-media">
+        <div class="intro-a ph" data-clip>{{img-intro-a}}</div>
+        <div class="intro-b ph" data-clip><div data-parallax="10">{{img-intro-b}}</div></div>
+      </div>
+      <div class="intro-copy">
+        <h2 id="intro-title" class="title" data-reveal>Da nossa família <em>para a sua.</em></h2>
+        <p class="body-lg" data-reveal>Tudo começou com dois irmãos e um balcão de pães no Jardim Anhanguera. Mais de três décadas depois, a Braghetto continua sendo a padaria do dia a dia: o pão da manhã, o café do meio da tarde, o almoço caseiro e o bolo das ocasiões especiais.</p>
+        <p class="intro-links" data-reveal>
+          <a class="link-arrow" href="#historia">Conheça a nossa história {{i-arrow}}</a>
+          <a class="link-arrow" href="#unidades">Onde estamos {{i-arrow}}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Produtos -->
+  <section class="products" id="produtos" aria-labelledby="prod-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="prod-title" class="title" data-reveal>O que sai <em>do nosso forno.</em></h2>
+        <p class="section-aside" data-reveal>Dos pães do café da manhã aos bolos confeitados. Escolha uma parte do cardápio para ver todos os itens.</p>
+      </div>
+      {{productShowcase}}
+      <div class="products-foot" data-reveal>
+        <a class="btn btn-solid btn-lg" href="./cardapio.html">Ver o cardápio completo</a>
+        <p class="fine">{{itemCount}} itens, com busca por nome. A produção varia ao longo do dia: na dúvida, consulte a unidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Café, lanche e o salão -->
+  <section class="moments" id="cafe" aria-labelledby="mom-title">
+    <div class="salao" data-clip>
+      <div class="salao-img" data-parallax="8">{{img-salao}}</div>
+      <div class="salao-copy wrap">
+        <h2 id="mom-title" class="title title-light">Do café da manhã <em>ao fim da tarde.</em></h2>
+        <p>Para levar para casa ou sentar e aproveitar ali mesmo, com calma.</p>
+      </div>
+    </div>
+    <div class="wrap moments-grid">
+      <figure class="moment m-manha">
+        <div class="ph" data-clip>{{img-manha}}</div>
+        <figcaption data-reveal><strong>De manhã</strong>Tapioca, pão na chapa, pão de queijo e o cafezinho do balcão.</figcaption>
+      </figure>
+      <figure class="moment m-lanche">
+        <div class="ph" data-clip>{{img-lanche}}</div>
+        <figcaption data-reveal><strong>Na hora do lanche</strong>Misto quente, bauru, cheese salada e lanches naturais.</figcaption>
+      </figure>
+      <figure class="moment m-doce">
+        <div class="ph" data-clip>{{img-doce}}</div>
+        <figcaption data-reveal><strong>Para adoçar</strong>Uma fatia de torta, um pudim ou um doce da vitrine com o café.</figcaption>
+      </figure>
+      <blockquote class="m-quote" data-reveal>
+        <p>“A sua quinta merece um docinho.”</p>
+        <footer>Legenda de um post da Braghetto no Instagram</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 5. Almoço e marmitas -->
+  <section class="lunch" id="almoco" aria-labelledby="lunch-title">
+    <div class="lunch-banner" data-clip><div class="lunch-img" data-parallax="10">{{img-almoco}}</div></div>
+    <div class="wrap lunch-grid">
+      <div class="lunch-copy">
+        <h2 id="lunch-title" class="title title-light" data-reveal>Almoço caseiro, <em>de segunda a sábado.</em></h2>
+        <p class="body-lg" data-reveal>Self-service no salão e marmitex para retirar ou receber em casa. O cardápio muda a cada dia: as carnes, as guarnições e as saladas do dia aparecem no pedido online.</p>
+        <div class="lunch-actions" data-reveal>
+          <a class="btn btn-gold btn-lg" href="{{orderOnline}}" target="_blank" rel="noopener">Pedir marmitex online {{i-out}}</a>
+          <a class="btn btn-ghost-light btn-lg" href="{{anhTel}}">Ligar {{anhPhone}}</a>
+        </div>
+        <p class="fine fine-light" data-reveal>O pedido online é da unidade Anhanguera, com retirada ou entrega, e abre no sistema da casa (G3Food), com os valores do dia.</p>
+      </div>
+      <div class="lunch-box" data-reveal>
+        <p class="box-label">Marmitex no pedido online</p>
+        <ul class="mx-list">{{marmitexList}}</ul>
+        <p class="fine fine-light">Você escolhe as carnes, as guarnições e a salada do dia no próprio pedido.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Encomendas -->
+  <section class="orders" id="encomendas" aria-labelledby="ord-title">
+    <div class="wrap orders-grid">
+      <div class="orders-copy">
+        <h2 id="ord-title" class="title" data-reveal>Para a festa, a reunião <em>e o café da firma.</em></h2>
+        <ul class="orders-list" data-reveal>
+          <li><a href="./cardapio.html#salgados"><strong>Salgados para festa</strong><span>Mini salgados assados e fritos, feitos na cozinha da casa.</span></a></li>
+          <li><a href="./cardapio.html#doces"><strong>Bolos e doces</strong><span>Bolos confeitados, bentô cake, tortas, pudins e roscas.</span></a></li>
+          <li><a href="./cardapio.html#lanches"><strong>Pães de metro</strong><span>Tradicional, gratinado, de lombo, de frango, vegetariano e mais.</span></a></li>
+          <li><a href="./encomendas.html"><strong>Coffee-break</strong><span>Para reuniões, empresas e eventos.</span></a></li>
+        </ul>
+        <div class="orders-actions" data-reveal>
+          <a class="btn btn-solid btn-lg" href="./encomendas.html#pedido">Montar minha encomenda</a>
+          <a class="link-arrow" href="./encomendas.html">Como funciona {{i-arrow}}</a>
+        </div>
+      </div>
+      <div class="orders-media">
+        <div class="om-a ph" data-clip>{{img-enc-a}}</div>
+        <div class="om-b ph" data-clip>{{img-enc-b}}</div>
+        <div class="om-c ph" data-clip>{{img-enc-c}}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. História -->
+  <section class="history" id="historia" aria-labelledby="hist-title">
+    <div class="wrap history-grid">
+      <div class="history-intro">
+        <h2 id="hist-title" class="title" data-reveal>Uma padaria <em>de família.</em></h2>
+        <p class="body-lg" data-reveal>A Panificadora Braghetto abriu as portas em 8 de agosto de 1992, fundada pelos irmãos Acácio e Kleber. Em 2008, Acácio seguiu à frente da casa com a esposa e os dois filhos ao lado, e a padaria nunca parou de melhorar para atender quem passa por ela todos os dias.</p>
+        <figure class="history-sketch" data-clip>{{img-historia}}</figure>
+      </div>
+      <ol class="tl" data-tl>
+        <li class="tl-line" aria-hidden="true"><span class="tl-fill" data-tl-fill></span></li>
+        {{timeline}}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 8. As casas -->
+  <section class="houses" id="casas" aria-labelledby="houses-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="houses-title" class="title" data-reveal>Duas casas, <em>a mesma família.</em></h2>
+        <p class="section-aside" data-reveal>A esquina de tijolos do Jardim Anhanguera, onde tudo começou, e a casa nova da Avenida Leão XIII, aberta em 2025.</p>
+      </div>
+      <div class="houses-grid">
+        <div class="h-a ph" data-clip>{{img-casa-a}}</div>
+        <div class="h-b ph" data-clip>{{img-casa-b}}</div>
+        <div class="h-c ph" data-clip>{{img-casa-c}}</div>
+        <div class="h-d ph" data-clip>{{img-casa-d}}</div>
+        <div class="h-e ph" data-clip>{{img-casa-e}}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Instagram -->
+  <section class="insta" aria-labelledby="ig-title">
+    <div class="wrap">
+      <div class="insta-head">
+        <h2 id="ig-title" class="ig-handle" data-reveal><a href="{{instagram}}" target="_blank" rel="noopener">@panificadorabraghetto</a></h2>
+        <p data-reveal>Fornadas do dia, bentô cakes do mês, cardápios de datas especiais e novidades das duas casas.</p>
+        <a class="btn btn-ghost" href="{{instagram}}" target="_blank" rel="noopener" data-reveal>{{i-insta}} Seguir no Instagram</a>
+      </div>
+      <a class="insta-photos" href="{{instagram}}" target="_blank" rel="noopener" aria-label="Abrir o Instagram da Panificadora Braghetto">
+        <span class="ph" data-clip>{{img-ig-a}}</span>
+        <span class="ph" data-clip>{{img-ig-b}}</span>
+        <span class="ph" data-clip>{{img-ig-c}}</span>
+        <span class="ph" data-clip>{{img-ig-d}}</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 10. Unidades e contato -->
+  <section class="visit" id="unidades" aria-labelledby="visit-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="visit-title" class="title title-light" data-reveal>Venha <em>nos visitar.</em></h2>
+        <p class="section-aside aside-light" data-reveal>Cada unidade tem o seu telefone e o seu WhatsApp. Para encomendas, você também pode escrever para <a href="mailto:{{email}}">{{email}}</a>.</p>
+      </div>
+      <div class="units">{{units}}</div>
+    </div>
+  </section>
+
+</main>
+
+{{footer}}
+{{mobileBar}}
+</body>
+</html>
