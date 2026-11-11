@@ -702,3 +702,7 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
 .cat-head.no-photo .cat-intro { grid-column: 1 / 10; padding-left: 0; }
 .hours-pending strong { display: block; color: var(--gold); }
 .f-hint[data-wa-hint] { padding: 0.8rem 1rem; border-radius: var(--r); background: var(--paper); color: var(--ink); font-size: 0.9375rem; }
+.lunch-photo-s { margin: 0 0 1.25rem; display: flex; align-items: center; gap: 0.9rem; }
+.lunch-photo-s img { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; flex: none; }
+.lunch-photo-s figcaption { font-size: 0.8125rem; opacity: 0.7; max-width: 14em; }
+.cat-ctas { display: flex; flex-wrap: wrap; gap: 0.6rem; }

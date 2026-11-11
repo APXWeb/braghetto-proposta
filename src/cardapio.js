@@ -58,7 +58,7 @@ function runSearch() {
     if (hit) n++
   })
   document.querySelectorAll('[data-group]').forEach((g) => (g.hidden = !g.querySelector('[data-item]:not([hidden])')))
-  document.querySelectorAll('[data-cat]').forEach((c) => (c.hidden = !c.querySelector('[data-item]:not([hidden])')))
+  document.querySelectorAll('[data-cat]').forEach((c) => (c.hidden = c.hasAttribute('data-info') ? Boolean(q) : !c.querySelector('[data-item]:not([hidden])')))
   document.querySelector('.menu-note').hidden = Boolean(q) && n === 0
   if (!q) status.textContent = ''
   else status.textContent = n ? `${n} ${n === 1 ? 'item encontrado' : 'itens encontrados'} para “${raw.trim()}”.` : ''
@@ -67,8 +67,8 @@ function runSearch() {
     empty.querySelector('[data-search-term]').textContent = `“${raw.trim()}”`
     empty.querySelector('[data-empty-actions]').innerHTML = units
       .map((u) =>
-        u.wa
-          ? `<a class="btn btn-ghost" href="${u.wa}?text=${encodeURIComponent(`Olá! Vocês têm ${raw.trim()}?`)}" target="_blank" rel="noopener">WhatsApp ${u.name.replace('Unidade ', '')}</a>`
+        u.order
+          ? `<a class="btn btn-ghost" href="${u.order}" target="_blank" rel="noopener">Cardápio online · ${u.name.replace('Unidade ', '')}</a>`
           : `<a class="btn btn-ghost" href="${u.tel}">Ligar ${u.name.replace('Unidade ', '')} ${u.phone}</a>`,
       )
       .join('')
@@ -113,25 +113,16 @@ document.addEventListener('click', (e) => {
   sPhoto.hidden = !pic
   sPhoto.replaceChildren(...(pic ? [pic.cloneNode(true)] : []))
   sPhoto.querySelector('img')?.setAttribute('sizes', '460px')
-  if (li.hasAttribute('data-online')) {
-    sText.textContent = 'O marmitex é pedido pelo cardápio online da unidade Anhanguera, com as opções e os valores do dia.'
-    sActs.innerHTML = `<a class="btn btn-solid" href="${site.orderOnline}" target="_blank" rel="noopener"><span>Abrir o pedido online<small>Retirada ou entrega</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a>`
-    sOrder.hidden = true
-  } else {
-    sText.textContent = 'Pergunte se tem hoje, ou peça os valores, direto para a unidade que você preferir:'
-    const msg = `Olá! Vocês têm ${name} hoje?`
-    const arrow = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>'
-    // Unidade sem WhatsApp confirmado só oferece a ligação.
-    sActs.innerHTML = units
-      .map((u, i) =>
-        u.wa
-          ? `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener"><span>${u.name}<small>WhatsApp ${u.whatsapp}</small></span>${arrow}</a>`
-          : `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.tel}"><span>${u.name}<small>Ligar ${u.phone}</small></span>${arrow}</a>`,
-      )
-      .join('')
-    sOrder.hidden = false
-    sOrder.href = `./encomendas.html?item=${encodeURIComponent(name)}#pedido`
-  }
+  const arrow = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg>'
+  const online = li.hasAttribute('data-online')
+  sText.textContent = online
+    ? 'Veja as opções e os valores do dia no cardápio online da unidade que você preferir.'
+    : 'Veja se tem hoje e faça o pedido no cardápio online da unidade que você preferir (G3Food).'
+  sActs.innerHTML = units
+    .map((u, i) => `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.order}" target="_blank" rel="noopener"><span>${u.name}<small>Cardápio online · retirada ou entrega</small></span>${arrow}</a>`)
+    .join('')
+  sOrder.hidden = online
+  if (!online) sOrder.href = `./encomendas.html?item=${encodeURIComponent(name)}#pedido`
   sheet.showModal()
 })
 sheet.addEventListener('click', (e) => { if (e.target === sheet) sheet.close() })

@@ -47,8 +47,8 @@ export const categories = [
   },
   {
     id: 'cafes',
-    title: 'Cafés e bebidas',
-    lead: 'O cafezinho do balcão, o pingado, o chocolate quente e os cappuccinos.',
+    title: 'Cafés',
+    lead: 'O cafezinho do balcão, o pingado, o leite, o chocolate e os cappuccinos.',
     cover: 'cafe-xicara',
     alt: 'Xícara de café com leite com a marca Braghetto, grãos de café e pães de queijo',
     groups: [
@@ -60,22 +60,12 @@ export const categories = [
           { name: 'Cappuccino gelado', src: IG },
         ],
       },
-      {
-        title: 'Bebidas no pedido online',
-        note: 'Disponíveis no cardápio online da unidade Anhanguera.',
-        items: [
-          { name: 'Guaraná Antarctica lata 350 ml', src: G3 },
-          { name: 'Schweppes Citrus lata 350 ml', src: G3 },
-          { name: 'Schweppes Citrus Light lata 350 ml', src: G3 },
-          { name: 'Sprite lata 350 ml', src: G3 },
-        ],
-      },
     ],
   },
   {
     id: 'salgados',
-    title: 'Salgados',
-    lead: 'Feitos na cozinha da casa: mini salgados para festas e salgados do dia a dia.',
+    title: 'Salgados e tortas',
+    lead: 'Feitos na cozinha da casa: mini salgados para festas, salgados do dia a dia e tortas.',
     cover: 'torta-salgada',
     alt: 'Fatia de torta salgada de presunto e queijo gratinada',
     groups: [
@@ -183,14 +173,14 @@ export const categories = [
   },
   {
     id: 'marmitex',
-    title: 'Almoço e marmitex',
-    lead: 'Almoço self-service de segunda a sábado e marmitex para retirar ou receber em casa.',
+    title: 'Almoço e marmitas',
+    lead: 'Almoço completo de segunda a sábado e marmitas para retirar ou receber em casa. Consulte as opções disponíveis no cardápio online.',
     // Sem foto por enquanto: a casa ainda não tem uma boa foto do almoço. Quando houver, basta
     // acrescentar `cover` e `alt` como nas outras categorias.
     online: true,
     groups: [
       {
-        title: 'Marmitex · pedido online',
+        title: 'Marmitas · pedido online',
         note: 'As opções de carnes, guarnições e saladas mudam: escolha no pedido online, que mostra o cardápio e os valores do dia.',
         items: [
           { name: 'Marmitex executivo', note: '2 carnes, 2 guarnições e 1 salada', src: G3 },
@@ -200,6 +190,31 @@ export const categories = [
         ],
       },
     ],
+  },
+  {
+    id: 'bebidas',
+    title: 'Bebidas',
+    lead: 'Refrigerantes e outras bebidas para acompanhar. Veja o que está disponível no cardápio online.',
+    online: true,
+    groups: [
+      {
+        title: 'Refrigerantes',
+        note: 'Disponíveis no cardápio online (G3Food).',
+        items: [
+          { name: 'Guaraná Antarctica lata 350 ml', src: G3 },
+          { name: 'Schweppes Citrus lata 350 ml', src: G3 },
+          { name: 'Schweppes Citrus Light lata 350 ml', src: G3 },
+          { name: 'Sprite lata 350 ml', src: G3 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'encomendas',
+    title: 'Encomendas e coffee breaks',
+    lead: 'Bolos, salgados para festa, pães de metro e coffee break para reuniões, empresas e eventos. Peça um orçamento pelo formulário, com retirada na unidade ou entrega.',
+    info: true,
+    groups: [],
   },
 ]
 

@@ -18,6 +18,7 @@ export const site = {
   email: 'encomendas@panificadorabraghetto.com.br',
   // Cardápio online oficial (G3Food): marmitex e bebidas, retirada ou entrega, da unidade Anhanguera.
   orderOnline: 'https://g3food.com.br/PANIFICADORABRAGHETTO',
+  website: 'https://panificadorabraghetto.com.br/',
   legal: { razao: 'Panificadora Braghetto Ltda', cnpj: '68.127.885/0001-28' },
 }
 
@@ -40,6 +41,7 @@ export const units = [
     cep: '14092-040',
     geo: { lat: -21.1780052, lng: -47.774844 },
     phone: '(16) 3627-6365',
+    order: 'https://g3food.com.br/PANIFICADORABRAGHETTO',
     whatsapp: '(16) 99770-7265',
     whatsappConfirmed: true, // Linktree oficial (wa.me/5516997707265)
     maps: 'https://maps.google.com/?cid=15990699822627416054',
@@ -65,12 +67,12 @@ export const units = [
     cep: '14096-190',
     geo: { lat: -21.196833, lng: -47.7782917 },
     phone: '(16) 3624-4455',
-    // PROVISÓRIO: aparece em legendas do Instagram da casa, mas não está no Linktree oficial.
+    order: 'https://g3food.com.br/BRAGHETTOUNIDADE2',
+    // Dado operacional definido pela Braghetto (nov/2026).
     whatsapp: '(16) 99622-0860',
-    whatsappConfirmed: false,
+    whatsappConfirmed: true,
     maps: 'https://maps.google.com/?cid=2524024342688290727',
-    // PROVISÓRIO: horário visto só no perfil da unidade no Google Maps em 10/11/2026
-    // (segunda a sábado 6h–22h, domingo 6h–18h). Não publicar antes de confirmar com a casa.
+    // Segunda a sábado 6h–22h, domingo 6h–18h (dado definido pela Braghetto, nov/2026).
     hours: [
       { open: 6, close: 18 },
       { open: 6, close: 22 },
@@ -80,8 +82,8 @@ export const units = [
       { open: 6, close: 22 },
       { open: 6, close: 22 },
     ],
-    hoursConfirmed: false,
-    services: ['Padaria e confeitaria', 'Café e lanches', 'Encomendas e coffee-break'],
+    hoursConfirmed: true,
+    services: ['Padaria e confeitaria', 'Café e lanches', 'Almoço e marmitas', 'Encomendas e coffee-break'],
   },
 ]
 

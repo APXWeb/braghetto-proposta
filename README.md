@@ -52,26 +52,25 @@ nada é compartilhado entre elas. Para a publicação oficial, troque `PROPOSAL`
 - Google Maps: perfis das duas unidades (endereços, telefones, horários, fotos).
 - Diário FM (10/01/2025): inauguração da unidade Leão XIII.
 
-## A confirmar com a casa antes de publicar
+## Dados definidos pela Braghetto (nov/2026)
 
-1. **Horário da unidade Leão XIII** (segunda a sábado 6h–22h, domingo 6h–18h): só o Google Maps
-   informa. Está em `units[1].hours`.
-2. **Horário da unidade Anhanguera** (segunda a sábado 6h–20h30, domingo 6h–18h): G3Food e Google
-   coincidem, mas vale a confirmação, inclusive em feriados.
-3. **WhatsApp da unidade Leão XIII** `(16) 99622-0860`: vem de legendas do Instagram; não está no Linktree.
-4. **Autoria das fotos do Google Maps** (lista abaixo): o Maps sem login não mostra quem enviou
-   cada foto. As de estúdio são claramente da casa; as de ambiente podem ser de clientes. Antes da
-   publicação oficial, a casa deve autorizar ou substituir por fotos próprias. Duas delas mostram
-   pessoas ao fundo (`salao-leao`, `balcao-anhanguera`).
-5. **Fotos do almoço**: só existe uma faixa de bufê em baixa definição (`buffet-cubas`). Uma foto
-   boa do bufê ou de um marmitex melhora muito essa seção.
-6. **Catálogo**: os nomes seguem o site atual, que pode estar desatualizado. Revisar a lista em
-   `src/data/cardapio.js`. Itens vindos de outra fonte estão marcados com `src`.
-7. **Entrega de encomendas**: o formulário pergunta "retirada ou entrega" e avisa que a unidade
-   confirma se atende o endereço. Confirmar se a casa entrega encomendas.
-8. **Pedido online da Leão XIII e iFood**: avaliações no Google citam iFood nas duas unidades, mas
-   nenhuma fonte oficial traz o link. Não foi incluído.
-9. **Facebook** `facebook.com/PanificadoraBraghetto`: link vem do site atual; conferir se segue ativo.
+Horários, telefones, WhatsApp da Leão XIII, links do G3Food e a opção de entrega foram definidos
+como os melhores dados operacionais das fontes públicas e estão centralizados em `src/data/site.js`
+(`units[].hours`, `phone`, `whatsapp`, `order`). Para atualizar, é só editar ali e rodar o build.
+
+- **Catálogo**: oito categorias (Pães, Cafés, Salgados e tortas, Lanches e pães de metro, Doces e
+  confeitaria, Almoço e marmitas, Bebidas, Encomendas e coffee breaks). Os nomes vêm das páginas
+  públicas do site atual. Não há preços. Disponibilidade e pedidos vão para o G3Food de cada unidade.
+- **Encomendas**: o formulário oferece retirada ou entrega e pede o endereço; área de cobertura e taxa
+  são consultadas durante o pedido.
+- **Foto do almoço**: provisória, do cardápio G3Food (`public/img/buffet-almoco.png`), em tamanho
+  secundário, até chegar uma foto oficial melhor.
+
+## Ainda a confirmar
+
+1. **Autoria das fotos do Google Maps**: já removidas do site; só entram de volta com autorização da casa.
+2. **Catálogo**: conferir a lista com a casa (`src/data/cardapio.js`); itens só do site atual podem estar desatualizados.
+3. **Facebook** `facebook.com/PanificadoraBraghetto`: link vem do site atual; conferir se segue ativo.
 
 ## Fotos
 

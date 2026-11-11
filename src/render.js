@@ -137,7 +137,8 @@ function footer() {
           <ul class="footer-links">
             <li><a href="./cardapio.html">Cardápio</a></li>
             <li><a href="./encomendas.html">Encomendas e coffee-break</a></li>
-            <li><a href="${site.orderOnline}" ${ext}>Pedir marmitex online</a></li>
+            ${units.map((u) => `<li><a href="${u.order}" ${ext}>Pedido online · ${u.name.replace('Unidade ', '')}</a></li>`).join('')}
+            <li><a href="${site.website}" ${ext}>Site atual da Braghetto</a></li>
             <li><a href="./#historia">Nossa história</a></li>
           </ul>
         </div>
@@ -373,6 +374,7 @@ function unitCard(u) {
     <ul class="unit-contacts">
       ${hasWhatsApp(u) ? `<li><a href="${waLink(u)}" ${ext}>${icon.wa}<span>WhatsApp <strong>${u.whatsapp}</strong></span></a></li>` : ''}
       <li><a href="${telLink(u.phone)}">${icon.phone}<span>Telefone <strong>${u.phone}</strong></span></a></li>
+      <li><a href="${u.order}" ${ext}>${icon.bag}<span>Pedido online <strong>G3Food</strong></span></a></li>
     </ul>
     <div class="unit-actions">
       <a class="btn btn-gold" href="${routeLink(u)}" ${ext}>${icon.route} Traçar rota</a>
@@ -390,7 +392,7 @@ function unitCard(u) {
 // que ficarem vazios somem. Itens pendentes levam data-pending, só para conferência interna.
 const listed = categories
   .map((c) => ({ ...c, groups: c.groups.map((g) => ({ ...g, items: g.items.filter(isListed) })).filter((g) => g.items.length) }))
-  .filter((c) => c.groups.length)
+  .filter((c) => c.groups.length || c.info)
 
 function cardapioNav() {
   return listed.map((c) => `<li><a href="#${c.id}" data-cat-link="${c.id}">${c.title}</a></li>`).join('')
@@ -420,7 +422,7 @@ function cardapioSections() {
         )
         .join('')
       return `
-    <section class="cat" id="${c.id}" data-cat aria-labelledby="t-${c.id}">
+    <section class="cat" id="${c.id}" data-cat${c.info ? ' data-info' : ''} aria-labelledby="t-${c.id}">
       <header class="cat-head${c.cover ? '' : ' no-photo'}">
         ${c.cover ? `<div class="cat-photo">${picture(c.cover, { alt: c.alt, sizes: '(min-width: 1000px) 30vw, 100vw' })}</div>` : ''}
         <div class="cat-intro">
@@ -428,12 +430,17 @@ function cardapioSections() {
           <p class="cat-lead">${c.lead}</p>
           ${
             c.online
-              ? `<a class="btn btn-solid" href="${site.orderOnline}" ${ext}>${icon.bag} Pedir marmitex online</a><p class="fine">Unidade Anhanguera, com retirada ou entrega. O cardápio e os valores do dia ficam no pedido online.</p>`
+              ? `<div class="cat-ctas">${units.map((u, i) => `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.order}" ${ext}>${icon.bag} Cardápio online · ${u.name.replace('Unidade ', '')}</a>`).join('')}</div><p class="fine">Retirada ou entrega, com as opções e os valores do dia no sistema da casa (G3Food).</p>`
+              : ''
+          }
+          ${
+            c.info
+              ? `<a class="btn btn-solid" href="./encomendas.html#pedido">${icon.mail} Pedir um orçamento</a><p class="fine">Retirada na unidade ou entrega. A área de cobertura e a taxa são consultadas durante o pedido.</p>`
               : ''
           }
         </div>
       </header>
-      <div class="cat-groups">${groups}</div>
+      ${groups ? `<div class="cat-groups">${groups}</div>` : ''}
     </section>`
     })
     .join('')
@@ -449,7 +456,7 @@ function unitOptions() {
 
 function unitsData() {
   // Unidade sem WhatsApp confirmado vai para o navegador sem o número: nenhum script consegue montar o link.
-  const data = units.map((u) => ({ id: u.id, name: u.name, whatsapp: hasWhatsApp(u) ? u.whatsapp : null, wa: hasWhatsApp(u) ? waLink(u) : null, phone: u.phone, tel: telLink(u.phone) }))
+  const data = units.map((u) => ({ id: u.id, name: u.name, order: u.order, whatsapp: hasWhatsApp(u) ? u.whatsapp : null, wa: hasWhatsApp(u) ? waLink(u) : null, phone: u.phone, tel: telLink(u.phone) }))
   return `<script type="application/json" id="units-data">${JSON.stringify(data)}</script>`
 }
 
@@ -466,16 +473,12 @@ function encContacts() {
 }
 
 function quickLinks() {
-  return (
-    `<a class="quick-card quick-dark" href="${site.orderOnline}" ${ext}>${icon.bag}<span><strong>Marmitex do dia</strong><small>Pedido online · retirada ou entrega</small></span>${icon.out}</a>` +
-    units
-      .map((u) =>
-        hasWhatsApp(u)
-          ? `<a class="quick-card" href="${waLink(u, 'Olá! Gostaria de saber o que tem disponível hoje.')}" ${ext}>${icon.wa}<span><strong>Perguntar à ${u.name.replace('Unidade ', 'unidade ')}</strong><small>WhatsApp ${u.whatsapp}</small></span>${icon.arrow}</a>`
-          : `<a class="quick-card" href="${telLink(u.phone)}">${icon.phone}<span><strong>Ligar para a ${u.name.replace('Unidade ', 'unidade ')}</strong><small>${u.phone}</small></span>${icon.arrow}</a>`,
-      )
-      .join('')
-  )
+  return units
+    .map(
+      (u, i) =>
+        `<a class="quick-card${i ? '' : ' quick-dark'}" href="${u.order}" ${ext}>${icon.bag}<span><strong>Ver o cardápio · ${u.name.replace('Unidade ', '')}</strong><small>Disponibilidade e pedido online (G3Food)</small></span>${icon.out}</a>`,
+    )
+    .join('')
 }
 
 export function blocks(page = 'index.html') {
