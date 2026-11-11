@@ -63,7 +63,7 @@ como os melhores dados operacionais das fontes públicas e estão centralizados 
   públicas do site atual. Não há preços. Disponibilidade e pedidos vão para o G3Food de cada unidade.
 - **Encomendas**: o formulário oferece retirada ou entrega e pede o endereço; área de cobertura e taxa
   são consultadas durante o pedido.
-- **Foto do almoço**: provisória, do cardápio G3Food (`public/img/buffet-almoco.png`), em tamanho
+- **Foto do almoço**: provisória, do cardápio G3Food (`public/img/buffet-almoco.webp`), em tamanho
   secundário, até chegar uma foto oficial melhor.
 
 ## Ainda a confirmar

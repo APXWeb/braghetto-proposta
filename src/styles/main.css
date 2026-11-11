@@ -548,9 +548,9 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
 .js-motion [data-clip]:not(.is-in), .js-motion [data-hero-photo]:not(.is-in) { background-color: transparent; }
 /* O recorte fica no conteúdo, não no elemento observado: um elemento 100% recortado conta como
    fora da tela para o IntersectionObserver e a revelação nunca dispararia. */
-.js-motion [data-clip] > *, .js-motion [data-hero-photo] > * { clip-path: inset(100% 0 0 0); transition: clip-path 1.2s var(--ease-out) var(--d, 0ms); }
+.js-motion [data-clip] > *, .js-motion [data-hero-photo] > * { clip-path: inset(100% 0 0 0); transition: clip-path 0.8s var(--ease-out) var(--d, 0ms); }
 .js-motion [data-clip].is-in > *, .js-motion [data-hero-photo].is-in > * { clip-path: inset(0 0 0 0); }
-.js-motion [data-clip] img, .js-motion [data-hero-photo] img { transform: scale(1.1); transition: transform 1.7s var(--ease-out) var(--d, 0ms); }
+.js-motion [data-clip] img, .js-motion [data-hero-photo] img { transform: scale(1.1); transition: transform 1.1s var(--ease-out) var(--d, 0ms); }
 .js-motion [data-clip].is-in img, .js-motion [data-hero-photo].is-in img { transform: none; }
 .js-motion .hero-since[data-hero] { transform: scale(0.8); }
 .js-motion .hero-since[data-hero].is-in { transform: none; }

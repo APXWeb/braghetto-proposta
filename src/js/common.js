@@ -9,6 +9,7 @@ import '../styles/main.css'
 export const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export function initCore() {
+  warmImages()
   initHeader()
   initMenu()
   initStatus()
@@ -227,3 +228,12 @@ export function initReveals(root = document) {
 
 // Se algo falhar no JS, nada pode ficar invisível.
 window.addEventListener('error', () => document.documentElement.classList.remove('js-motion'))
+
+// As fotos são "lazy" para não pesar na abertura, mas esperar a rolagem faz a foto aparecer vazia.
+// Depois que a página termina de carregar, o navegador busca as demais em segundo plano.
+function warmImages() {
+  const go = () => document.querySelectorAll('img[loading="lazy"]').forEach((img) => { img.loading = 'eager' })
+  const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 600))
+  if (document.readyState === 'complete') idle()
+  else window.addEventListener('load', idle, { once: true })
+}
