@@ -30,7 +30,7 @@ jobs:
         run: |
           cd dist
           missing=0
-          for f in $(grep -oE '(src|href)="\./[^"]+"' index.html | sed -E 's/^(src|href)="\.\///; s/"$//' | sort -u); do
+          for f in $(grep -oE '(src|href)="\./[^"]+"' index.html | sed -E 's/^(src|href)="\.\///; s/"$//; s/#.*$//' | grep -v '^$' | sort -u); do
             [ -f "$f" ] || { echo "faltando: $f"; missing=1; }
           done
           for f in $(grep -oE 'img/[a-z0-9-]+\.(webp|avif|png)' index.html | sort -u); do
