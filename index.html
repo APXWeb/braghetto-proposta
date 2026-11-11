@@ -60,49 +60,50 @@
       {{productShowcase}}
       <div class="products-foot" data-reveal>
         <a class="btn btn-solid btn-lg" href="./cardapio.html">Ver o cardápio completo</a>
-        <p class="fine">{{itemCount}} itens, com busca por nome. A produção varia ao longo do dia: na dúvida, consulte a unidade.</p>
+        <p class="fine">Com busca por nome. A produção varia ao longo do dia: na dúvida, consulte a unidade.</p>
       </div>
     </div>
   </section>
 
-  <!-- 4. Café, lanche e o salão -->
+  <!-- 4. Café e lanche -->
   <section class="moments" id="cafe" aria-labelledby="mom-title">
-    <div class="salao" data-clip>
-      <div class="salao-img" data-parallax="8">{{img-salao}}</div>
-      <div class="salao-copy wrap">
-        <h2 id="mom-title" class="title title-light">Do café da manhã <em>ao fim da tarde.</em></h2>
-        <p>Para levar para casa ou sentar e aproveitar ali mesmo, com calma.</p>
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="mom-title" class="title" data-reveal>Do café da manhã <em>ao fim da tarde.</em></h2>
+        <p class="section-aside" data-reveal>Para levar para casa ou sentar e aproveitar ali mesmo, com calma.</p>
       </div>
-    </div>
-    <div class="wrap moments-grid">
-      <figure class="moment m-manha">
-        <div class="ph" data-clip>{{img-manha}}</div>
-        <figcaption data-reveal><strong>De manhã</strong>Tapioca, pão na chapa, pão de queijo e o cafezinho do balcão.</figcaption>
-      </figure>
-      <figure class="moment m-lanche">
-        <div class="ph" data-clip>{{img-lanche}}</div>
-        <figcaption data-reveal><strong>Na hora do lanche</strong>Misto quente, bauru, cheese salada e lanches naturais.</figcaption>
-      </figure>
-      <figure class="moment m-doce">
-        <div class="ph" data-clip>{{img-doce}}</div>
-        <figcaption data-reveal><strong>Para adoçar</strong>Uma fatia de torta, um pudim ou um doce da vitrine com o café.</figcaption>
-      </figure>
-      <blockquote class="m-quote" data-reveal>
-        <p>“A sua quinta merece um docinho.”</p>
-        <footer>Legenda de um post da Braghetto no Instagram</footer>
-      </blockquote>
+      <div class="moments-grid">
+        <figure class="moment m-manha">
+          <div class="ph" data-clip>{{img-manha}}</div>
+          <figcaption data-reveal><strong>De manhã</strong>Tapioca, pão na chapa, pão de queijo e o cafezinho do balcão.</figcaption>
+        </figure>
+        <figure class="moment m-tarde">
+          <div class="ph" data-clip>{{img-tarde}}</div>
+          <figcaption data-reveal><strong>Na pausa da tarde</strong>Café, cappuccino ou chocolate quente, com um doce para acompanhar.</figcaption>
+        </figure>
+        <blockquote class="m-quote" data-reveal>
+          <p>“A sua quinta merece um docinho.”</p>
+          <footer>Legenda de um post da Braghetto no Instagram</footer>
+        </blockquote>
+        <figure class="moment m-doce">
+          <div class="ph" data-clip>{{img-doce}}</div>
+          <figcaption data-reveal><strong>Para adoçar</strong>Uma fatia de torta, um pudim ou um doce da vitrine.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <!-- 5. Almoço e marmitas -->
+  <!-- 5. Almoço e marmitas
+       Sem foto por enquanto: a casa ainda não tem uma boa foto do almoço. Quando houver, ela entra
+       como primeiro filho de .lunch-grid, em <div class="lunch-photo ph" data-clip>…</div>
+       (o CSS dessa classe já existe). -->
   <section class="lunch" id="almoco" aria-labelledby="lunch-title">
-    <div class="lunch-banner" data-clip><div class="lunch-img" data-parallax="10">{{img-almoco}}</div></div>
     <div class="wrap lunch-grid">
       <div class="lunch-copy">
         <h2 id="lunch-title" class="title title-light" data-reveal>Almoço caseiro, <em>de segunda a sábado.</em></h2>
         <p class="body-lg" data-reveal>Self-service no salão e marmitex para retirar ou receber em casa. O cardápio muda a cada dia: as carnes, as guarnições e as saladas do dia aparecem no pedido online.</p>
         <div class="lunch-actions" data-reveal>
-          <a class="btn btn-gold btn-lg" href="{{orderOnline}}" target="_blank" rel="noopener">Pedir marmitex online {{i-out}}</a>
+          <a class="btn btn-gold btn-lg" href="{{orderOnline}}" target="_blank" rel="noopener">Ver o cardápio de hoje {{i-out}}</a>
           <a class="btn btn-ghost-light btn-lg" href="{{anhTel}}">Ligar {{anhPhone}}</a>
         </div>
         <p class="fine fine-light" data-reveal>O pedido online é da unidade Anhanguera, com retirada ou entrega, e abre no sistema da casa (G3Food), com os valores do dia.</p>
@@ -154,22 +155,9 @@
     </div>
   </section>
 
-  <!-- 8. As casas -->
-  <section class="houses" id="casas" aria-labelledby="houses-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="houses-title" class="title" data-reveal>Duas casas, <em>a mesma família.</em></h2>
-        <p class="section-aside" data-reveal>A esquina de tijolos do Jardim Anhanguera, onde tudo começou, e a casa nova da Avenida Leão XIII, aberta em 2025.</p>
-      </div>
-      <div class="houses-grid">
-        <div class="h-a ph" data-clip>{{img-casa-a}}</div>
-        <div class="h-b ph" data-clip>{{img-casa-b}}</div>
-        <div class="h-c ph" data-clip>{{img-casa-c}}</div>
-        <div class="h-d ph" data-clip>{{img-casa-d}}</div>
-        <div class="h-e ph" data-clip>{{img-casa-e}}</div>
-      </div>
-    </div>
-  </section>
+  <!-- 8. As casas: seção guardada para quando a Braghetto enviar fotos próprias da fachada e do
+       salão. As únicas fotos de ambiente encontradas vieram do Google Maps, sem autoria
+       verificável, e por isso não entram. O CSS da galeria (.houses-grid) continua no projeto. -->
 
   <!-- 9. Instagram -->
   <section class="insta" aria-labelledby="ig-title">
@@ -183,7 +171,6 @@
         <span class="ph" data-clip>{{img-ig-a}}</span>
         <span class="ph" data-clip>{{img-ig-b}}</span>
         <span class="ph" data-clip>{{img-ig-c}}</span>
-        <span class="ph" data-clip>{{img-ig-d}}</span>
       </a>
     </div>
   </section>
@@ -193,7 +180,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2 id="visit-title" class="title title-light" data-reveal>Venha <em>nos visitar.</em></h2>
-        <p class="section-aside aside-light" data-reveal>Cada unidade tem o seu telefone e o seu WhatsApp. Para encomendas, você também pode escrever para <a href="mailto:{{email}}">{{email}}</a>.</p>
+        <p class="section-aside aside-light" data-reveal>Cada unidade tem os seus próprios contatos. Para encomendas, você também pode escrever para <a href="mailto:{{email}}">{{email}}</a>.</p>
       </div>
       <div class="units">{{units}}</div>
     </div>

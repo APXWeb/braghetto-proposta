@@ -66,7 +66,11 @@ function runSearch() {
   if (q && !n) {
     empty.querySelector('[data-search-term]').textContent = `“${raw.trim()}”`
     empty.querySelector('[data-empty-actions]').innerHTML = units
-      .map((u) => `<a class="btn btn-ghost" href="${u.wa}?text=${encodeURIComponent(`Olá! Vocês têm ${raw.trim()}?`)}" target="_blank" rel="noopener">WhatsApp ${u.name.replace('Unidade ', '')}</a>`)
+      .map((u) =>
+        u.wa
+          ? `<a class="btn btn-ghost" href="${u.wa}?text=${encodeURIComponent(`Olá! Vocês têm ${raw.trim()}?`)}" target="_blank" rel="noopener">WhatsApp ${u.name.replace('Unidade ', '')}</a>`
+          : `<a class="btn btn-ghost" href="${u.tel}">Ligar ${u.name.replace('Unidade ', '')} ${u.phone}</a>`,
+      )
       .join('')
   }
 }
@@ -114,11 +118,15 @@ document.addEventListener('click', (e) => {
     sActs.innerHTML = `<a class="btn btn-solid" href="${site.orderOnline}" target="_blank" rel="noopener"><span>Abrir o pedido online<small>Retirada ou entrega</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a>`
     sOrder.hidden = true
   } else {
-    sText.textContent = 'Pergunte se tem hoje, ou peça os valores, no WhatsApp da unidade que você preferir:'
+    sText.textContent = 'Pergunte se tem hoje, ou peça os valores, direto para a unidade que você preferir:'
     const msg = `Olá! Vocês têm ${name} hoje?`
+    const arrow = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>'
+    // Unidade sem WhatsApp confirmado só oferece a ligação.
     sActs.innerHTML = units
-      .map(
-        (u, i) => `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener"><span>${u.name}<small>WhatsApp ${u.whatsapp}</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>`,
+      .map((u, i) =>
+        u.wa
+          ? `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener"><span>${u.name}<small>WhatsApp ${u.whatsapp}</small></span>${arrow}</a>`
+          : `<a class="btn ${i ? 'btn-ghost' : 'btn-solid'}" href="${u.tel}"><span>${u.name}<small>Ligar ${u.phone}</small></span>${arrow}</a>`,
       )
       .join('')
     sOrder.hidden = false

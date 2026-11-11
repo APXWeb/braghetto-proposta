@@ -1,10 +1,21 @@
-// Catálogo da Braghetto. Nomes conforme as páginas de produtos do site atual
-// (panificadorabraghetto.com.br/produtos/*), com abreviações escritas por extenso.
-// Itens marcados com `src` vieram de outra fonte oficial, citada ao lado.
-// Sem preços: eles mudam e não foram publicados pela casa no catálogo. O pedido online (G3Food)
-// mostra os valores atualizados das marmitas.
+// Catálogo da Braghetto: LEVANTAMENTO PRELIMINAR, a revisar com a casa.
 //
-// Item: 'Nome' ou { name, photo?, note?, src? }. `photo` só quando a foto é daquele produto.
+// Os nomes vêm das páginas de produtos do site atual (panificadorabraghetto.com.br/produtos/*),
+// que pode estar desatualizado. Por isso cada item tem um estado interno:
+//   confirmado -> visto em 2026 num canal oficial em uso (Instagram da casa ou pedido online G3Food).
+//                 São os itens com `src: IG` ou `src: G3`.
+//   pendente   -> veio só do site atual; a venda hoje ainda não foi confirmada. É o padrão.
+//
+// SHOW_PENDING controla o que vai para o site:
+//   true  -> versão de apresentação: os pendentes aparecem como "catálogo em revisão", sempre com
+//            "consulte a unidade" e nunca como disponíveis.
+//   false -> versão para publicar: só os confirmados aparecem. Use assim até a casa revisar a lista.
+// Para confirmar um item, acrescente `ok: true` a ele (ex.: { name: 'Pão francês', ok: true }).
+//
+// Sem preços, ingredientes ou tamanhos: nada disso foi publicado pela casa no catálogo.
+// Item: 'Nome' ou { name, photo?, note?, src?, ok? }. `photo` só quando a foto é daquele produto.
+
+export const SHOW_PENDING = true
 
 const IG = 'Instagram da casa, 2026'
 const G3 = 'cardápio online G3Food, nov/2026'
@@ -174,8 +185,8 @@ export const categories = [
     id: 'marmitex',
     title: 'Almoço e marmitex',
     lead: 'Almoço self-service de segunda a sábado e marmitex para retirar ou receber em casa.',
-    cover: 'buffet-cubas',
-    alt: 'Cubas do bufê de almoço da Braghetto',
+    // Sem foto por enquanto: a casa ainda não tem uma boa foto do almoço. Quando houver, basta
+    // acrescentar `cover` e `alt` como nas outras categorias.
     online: true,
     groups: [
       {
@@ -194,5 +205,11 @@ export const categories = [
 
 const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 export const asItem = (i) => (typeof i === 'string' ? { name: i } : i)
+export const isConfirmed = (i) => {
+  const it = asItem(i)
+  return it.ok === true || it.src === IG || it.src === G3
+}
+export const isListed = (i) => SHOW_PENDING || isConfirmed(i)
+export const pendingCount = categories.reduce((n, c) => n + c.groups.reduce((m, g) => m + g.items.filter((i) => !isConfirmed(i)).length, 0), 0)
 export const searchKey = (i) => norm(asItem(i).name)
 export const itemCount = categories.reduce((n, c) => n + c.groups.reduce((m, g) => m + g.items.length, 0), 0)

@@ -181,7 +181,7 @@ button { cursor: pointer; }
 .hero-oval img { object-fit: cover; object-position: 42% 50%; }
 .hero-coin { position: absolute; left: -15%; bottom: 3%; width: 40%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 8px solid var(--flour); background: var(--paper); }
 .hero-coin picture, .hero-coin img { width: 100%; height: 100%; }
-.hero-coin img { object-fit: cover; object-position: 30% 60%; }
+.hero-coin img { object-fit: cover; object-position: 36% 50%; }
 .hero-since { position: absolute; top: 5%; right: -4%; display: grid; place-content: center; width: 112px; height: 112px; border-radius: 50%; background: var(--choc); color: var(--gold); text-align: center; line-height: 1; }
 .hero-since span { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.04em; }
 .hero-since strong { font-family: var(--serif); font-size: 2rem; font-weight: 500; margin-top: 0.15rem; }
@@ -224,37 +224,28 @@ button { cursor: pointer; }
 .pc-photo-m { display: none; }
 .products-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem; margin-top: clamp(2.5rem, 4vw, 4rem); }
 
-/* ---------- café, lanche e o salão ---------- */
+/* ---------- café e lanche ---------- */
 
-.moments { padding-bottom: var(--sec); }
-.salao { position: relative; height: clamp(440px, 82vh, 780px); overflow: hidden; background: var(--choc); }
-.salao-img { position: absolute; inset: -9% 0; }
-.salao-img picture, .salao-img img { width: 100%; height: 100%; }
-.salao-img img { object-fit: cover; object-position: 50% 60%; }
-.salao::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(31, 18, 10, 0.88) 0%, rgba(31, 18, 10, 0.45) 38%, rgba(31, 18, 10, 0) 68%); }
-.salao-copy { position: absolute; z-index: 1; inset: auto 0 0; padding-bottom: clamp(2rem, 4.5vw, 4.5rem); color: var(--flour); }
-.salao-copy p { margin-top: 1rem; max-width: 30em; font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); color: rgba(250, 246, 238, 0.9); }
-.moments-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 32px); align-items: start; margin-top: clamp(3rem, 6vw, 6rem); }
+.moments { padding-block: var(--sec); }
+.moments-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 32px); align-items: start; row-gap: clamp(2.5rem, 5vw, 5rem); }
 .moment figcaption { margin-top: 1rem; max-width: 24em; color: var(--choc-2); }
 .moment figcaption strong { display: block; font-family: var(--serif); font-size: 1.4rem; font-weight: 600; line-height: 1.2; color: var(--ink); margin-bottom: 0.2rem; }
 .m-manha { grid-column: 1 / 6; }
 .m-manha .ph { aspect-ratio: 1; }
-.m-lanche { grid-column: 6 / 10; margin-top: clamp(2rem, 6vw, 6rem); }
-.m-lanche .ph { aspect-ratio: 5 / 6; }
-.m-doce { grid-column: 10 / 13; }
-.m-doce .ph { aspect-ratio: 2 / 3; }
-.m-quote { grid-column: 1 / 8; margin-top: clamp(2.5rem, 5vw, 5rem); padding-left: clamp(1rem, 2vw, 2rem); border-left: 2px solid var(--gold); }
+.m-tarde { grid-column: 7 / 13; margin-top: clamp(2rem, 6vw, 6rem); }
+.m-tarde .ph { aspect-ratio: 6 / 5; }
+.m-quote { grid-column: 1 / 6; align-self: center; padding-left: clamp(1rem, 2vw, 2rem); border-left: 2px solid var(--gold); }
+.m-doce { grid-column: 7 / 13; }
+.m-doce .ph { aspect-ratio: 11 / 5; }
 .m-quote p { font-family: var(--serif); font-style: italic; font-size: clamp(1.7rem, 1.2rem + 2vw, 2.9rem); line-height: 1.12; letter-spacing: -0.01em; }
 .m-quote footer { margin-top: 0.75rem; color: var(--muted); font-size: 0.9375rem; }
 
 /* ---------- almoço ---------- */
 
-.lunch { background: var(--checker), var(--choc); color: var(--flour); padding-bottom: var(--sec); }
-.lunch-banner { height: clamp(170px, 21vw, 320px); overflow: hidden; }
-.lunch-img { height: 122%; margin-top: -5%; }
-.lunch-img picture, .lunch-img img { width: 100%; height: 100%; }
-.lunch-img img { object-fit: cover; }
-.lunch-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 32px); align-items: start; margin-top: clamp(3rem, 6vw, 6rem); }
+.lunch { background: var(--checker), var(--choc); color: var(--flour); padding-block: var(--sec); }
+.lunch-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 32px); align-items: start; }
+/* Lugar reservado para a foto do almoço, quando a casa enviar. */
+.lunch-photo { grid-column: 1 / 13; aspect-ratio: 21 / 9; margin-bottom: clamp(2.5rem, 5vw, 5rem); }
 .lunch-copy { grid-column: 1 / 8; }
 .lunch-copy .body-lg { margin-top: 1.75rem; color: rgba(250, 246, 238, 0.88); }
 .lunch-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 2.25rem 0 1.5rem; }
@@ -319,7 +310,7 @@ button { cursor: pointer; }
 .ig-handle a:hover { color: var(--crust); }
 .insta-head > p { grid-column: 8 / 11; color: var(--muted); }
 .insta-head > .btn { grid-column: 11 / 13; justify-self: end; }
-.insta-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.6vw, 24px); text-decoration: none; }
+.insta-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 1.6vw, 24px); text-decoration: none; }
 .insta-photos .ph { display: block; aspect-ratio: 1; }
 .insta-photos img { transition: transform 0.8s var(--ease-out); }
 .insta-photos:hover img { transform: scale(1.03); }
@@ -595,11 +586,6 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
   .pc-item.is-on .pc-link { padding-left: 0; }
   .pc-item.is-on .pc-title { color: inherit; }
 
-  .m-manha { grid-column: 1 / 8; }
-  .m-lanche { grid-column: 8 / 13; }
-  .m-doce { grid-column: 1 / 6; margin-top: 2.5rem; }
-  .m-quote { grid-column: 6 / 13; align-self: center; margin-left: 1rem; }
-
   .lunch-copy, .lunch-box { grid-column: 1 / -1; }
   .lunch-box { margin-top: 2.5rem; }
 
@@ -664,11 +650,9 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
   .pc-link { grid-template-columns: 1fr; }
   .products-foot .btn { width: 100%; }
 
-  .salao { height: clamp(420px, 74vh, 560px); }
   .moments-grid { display: grid; grid-template-columns: 1fr; row-gap: 2.5rem; }
-  .m-manha, .m-lanche, .m-doce, .m-quote { grid-column: 1 / -1; margin: 0; }
-  .m-lanche { width: 82%; justify-self: end; }
-  .m-doce { width: 70%; }
+  .m-manha, .m-tarde, .m-doce, .m-quote { grid-column: 1 / -1; margin: 0; }
+  .m-tarde { width: 86%; justify-self: end; }
   .m-quote { padding-left: 1rem; }
 
   .lunch-actions .btn, .orders-actions .btn { width: 100%; }
@@ -684,7 +668,7 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
   .h-e { grid-column: 8 / 13; aspect-ratio: auto; align-self: stretch; }
 
   .insta-head > p, .insta-head > .btn { grid-column: 1 / -1; justify-self: start; }
-  .insta-photos { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .insta-photos { gap: 8px; }
 
   .unit-actions .btn { flex: 1 1 100%; }
   .footer-cols { grid-template-columns: 1fr 1fr; }
@@ -712,3 +696,9 @@ mark { background: rgba(214, 172, 85, 0.45); color: inherit; border-radius: 2px;
 /* ---------- ajustes finos ---------- */
 .menu-body > .cat:first-of-type { padding-top: clamp(1rem, 2vw, 2rem); }
 .header-cta .btn[aria-current='page'] { background: transparent; color: var(--choc); border-color: var(--choc); box-shadow: inset 0 -3px 0 var(--gold); }
+
+/* ---------- dados em confirmação ---------- */
+.catalog-note { margin-top: 1.25rem; padding: 0.9rem 1.1rem; border-left: 3px solid var(--gold); background: var(--paper); border-radius: 0 var(--r) var(--r) 0; max-width: 38em; font-size: 0.9375rem; }
+.cat-head.no-photo .cat-intro { grid-column: 1 / 10; padding-left: 0; }
+.hours-pending strong { display: block; color: var(--gold); }
+.f-hint[data-wa-hint] { padding: 0.8rem 1rem; border-radius: var(--r); background: var(--paper); color: var(--ink); font-size: 0.9375rem; }

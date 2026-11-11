@@ -79,7 +79,23 @@ form.addEventListener('input', (e) => {
     if (k !== n && !form.querySelector(`[data-error-for="${k}"]:not([hidden])`)) setError(k, '')
   })
 })
-form.addEventListener('change', (e) => { if (e.target.name === 'unidade') setError('unidade', '') })
+// Unidade sem WhatsApp confirmado: o botão de WhatsApp sai e o pedido segue por e-mail.
+const waBtn = form.querySelector('[data-send="whatsapp"]')
+const waHint = form.querySelector('[data-wa-hint]')
+function syncChannel() {
+  const id = form.querySelector('input[name="unidade"]:checked')?.value
+  const u = units.find((x) => x.id === id)
+  const noWa = Boolean(u && !u.wa)
+  waBtn.hidden = noWa
+  waHint.hidden = !noWa
+  if (noWa) waHint.innerHTML = `Para a ${u.name}, envie por e-mail ou ligue <a href="${u.tel}">${u.phone}</a>.`
+}
+form.addEventListener('change', (e) => {
+  if (e.target.name !== 'unidade') return
+  setError('unidade', '')
+  syncChannel()
+})
+syncChannel()
 
 function message() {
   const u = units.find((x) => x.id === form.querySelector('input[name="unidade"]:checked').value)
@@ -109,7 +125,7 @@ function message() {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault()
-  const via = e.submitter?.dataset.send || 'whatsapp'
+  let via = e.submitter?.dataset.send || 'whatsapp'
   const errors = validate()
   if (errors.length) {
     result.hidden = false
@@ -121,6 +137,7 @@ form.addEventListener('submit', (e) => {
     return
   }
   const { u, text } = message()
+  if (!u.wa) via = 'email'
   const href = via === 'email'
     ? `mailto:${site.email}?subject=${encodeURIComponent(`Encomenda · ${u.name} · ${$('nome').value.trim()}`)}&body=${encodeURIComponent(text.replace(/\*/g, ''))}`
     : `${u.wa}?text=${encodeURIComponent(text)}`
@@ -130,7 +147,7 @@ form.addEventListener('submit', (e) => {
   result.className = 'f-result'
   result.innerHTML =
     via === 'email'
-      ? `<p><strong>Abrimos o seu aplicativo de e-mail</strong> com a encomenda pronta para ${site.email}. Confira e envie.</p><p>A encomenda só fica confirmada quando a equipe responder. Se o e-mail não abriu, <a href="${href}">toque aqui</a> ou chame a ${u.name} no WhatsApp ${u.whatsapp}.</p>`
+      ? `<p><strong>Abrimos o seu aplicativo de e-mail</strong> com a encomenda pronta para ${site.email}. Confira e envie.</p><p>A encomenda só fica confirmada quando a equipe responder. Se o e-mail não abriu, <a href="${href}">toque aqui</a> ou ligue para a ${u.name}: <a href="${u.tel}">${u.phone}</a>.</p>`
       : `<p><strong>Abrimos o WhatsApp da ${u.name}</strong> (${u.whatsapp}) com a sua mensagem pronta. É só conferir e enviar.</p><p>A encomenda só fica confirmada quando a unidade responder. Se o WhatsApp não abriu, <a href="${href}" target="_blank" rel="noopener">toque aqui</a>.</p>`
   result.focus()
 })

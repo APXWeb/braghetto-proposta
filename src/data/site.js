@@ -22,7 +22,14 @@ export const site = {
 }
 
 // Cada unidade com os seus próprios contatos. Nunca misture telefones ou horários entre elas.
-// hours: índice 0 = domingo. open/close em horas decimais (20.5 = 20h30). null = não confirmado.
+// hours: índice 0 = domingo. open/close em horas decimais (20.5 = 20h30).
+//
+// DADOS PENDENTES: o site só exibe horário e WhatsApp de uma unidade quando a marca de
+// confirmação correspondente está em `true`. Enquanto estiver `false`, o valor fica guardado
+// aqui, mas não aparece em nenhuma página, botão ou dado estruturado.
+//   hoursConfirmed     -> tabela de horários, "aberto agora" e openingHours do schema.org
+//   whatsappConfirmed  -> todo link/botão de WhatsApp da unidade (o formulário passa a usar e-mail)
+// Para liberar depois da confirmação com a Braghetto, basta trocar para `true`.
 export const units = [
   {
     id: 'anhanguera',
@@ -34,6 +41,7 @@ export const units = [
     geo: { lat: -21.1780052, lng: -47.774844 },
     phone: '(16) 3627-6365',
     whatsapp: '(16) 99770-7265',
+    whatsappConfirmed: true, // Linktree oficial (wa.me/5516997707265)
     maps: 'https://maps.google.com/?cid=15990699822627416054',
     // Horário publicado pela casa no cardápio online (G3Food) e igual ao do Google Maps em 10/11/2026.
     hours: [
@@ -45,12 +53,8 @@ export const units = [
       { open: 6, close: 20.5 },
       { open: 6, close: 20.5 },
     ],
-    hoursSummary: [
-      ['Segunda a sábado', '6h às 20h30'],
-      ['Domingo', '6h às 18h'],
-    ],
+    hoursConfirmed: true, // publicado pela própria casa no G3Food
     services: ['Padaria e confeitaria', 'Café e lanches', 'Almoço self-service (seg. a sáb.)', 'Marmitex com pedido online', 'Encomendas e coffee-break'],
-    photo: 'fachada-anhanguera',
   },
   {
     id: 'leao',
@@ -61,10 +65,12 @@ export const units = [
     cep: '14096-190',
     geo: { lat: -21.196833, lng: -47.7782917 },
     phone: '(16) 3624-4455',
+    // PROVISÓRIO: aparece em legendas do Instagram da casa, mas não está no Linktree oficial.
     whatsapp: '(16) 99622-0860',
+    whatsappConfirmed: false,
     maps: 'https://maps.google.com/?cid=2524024342688290727',
-    // Horário conforme o perfil da unidade no Google Maps em 10/11/2026 (segunda a sábado 6h–22h,
-    // domingo 6h–18h). A CONFIRMAR com a casa: não há outra fonte oficial para esta unidade.
+    // PROVISÓRIO: horário visto só no perfil da unidade no Google Maps em 10/11/2026
+    // (segunda a sábado 6h–22h, domingo 6h–18h). Não publicar antes de confirmar com a casa.
     hours: [
       { open: 6, close: 18 },
       { open: 6, close: 22 },
@@ -74,14 +80,13 @@ export const units = [
       { open: 6, close: 22 },
       { open: 6, close: 22 },
     ],
-    hoursSummary: [
-      ['Segunda a sábado', '6h às 22h'],
-      ['Domingo', '6h às 18h'],
-    ],
+    hoursConfirmed: false,
     services: ['Padaria e confeitaria', 'Café e lanches', 'Encomendas e coffee-break'],
-    photo: 'fachada-leao',
   },
 ]
+
+export const hasHours = (u) => Boolean(u.hours && u.hoursConfirmed)
+export const hasWhatsApp = (u) => Boolean(u.whatsapp && u.whatsappConfirmed)
 
 export const digits = (s) => s.replace(/\D/g, '')
 export const waLink = (unit, text = '') =>
@@ -102,4 +107,4 @@ export const timeline = [
 
 // Créditos das fotos (rodapé e README).
 export const photoCredits =
-  'Fotos: site e Instagram da Panificadora Braghetto (@panificadorabraghetto) e perfis das duas unidades no Google Maps.'
+  'Fotos: site e Instagram da Panificadora Braghetto (@panificadorabraghetto).'

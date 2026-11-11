@@ -1,12 +1,13 @@
 """Gera AVIF + WebP em várias larguras para public/img/ a partir de assets-src/.
 
-Origem das fotos (consultadas em 06/11/2026):
-- site atual panificadorabraghetto.com.br (fotos de produto da casa; as de fundo têm uma
-  borda serrilhada embaixo, que o recorte remove);
-- Instagram @panificadorabraghetto (posts da própria casa: produção na unidade Leão,
-  tapioca, brownie com café, bentô cakes);
-- Google Maps: fotos de capa dos perfis das duas unidades (a da Leão publicada pelo
-  perfil "Panificadora Braghetto - Leão", jan/2025).
+Só entram fotos de canais oficiais da casa (consultadas em 06/11/2026):
+- site atual panificadorabraghetto.com.br (fotos de produto; as de fundo têm uma borda
+  serrilhada embaixo, que o recorte remove);
+- Instagram @panificadorabraghetto, posts da própria casa (produção na unidade Leão, tapioca,
+  brownie com café, bentô cakes).
+Fotos dos perfis no Google Maps NÃO entram: a autoria não pôde ser verificada (podem ser de
+clientes) e algumas mostram pessoas. A faixa do bufê do site antigo também ficou de fora, por
+ser de baixa definição. O material bruto continua em fonte/ (fora do git) só para referência.
 Rodar na raiz do projeto: python tools/images.py [nomes...]
 """
 import json
@@ -31,10 +32,7 @@ CROPS = {
     'bolo-chocolate': None,
     'torta-maracuja': None,
     'doces-glacados': (0, 0, 700, 300),     # tira o recorte diagonal branco do canto
-    'buffet-cubas': None,
     'fachada-desenho': None,
-    'fachada-anhanguera': (0, 0, None, 860),  # tira o guidão da moto no canto inferior
-    'fachada-leao': None,
     'producao-tranca': None,
     'producao-paes-gergelim': None,
     'producao-paes-forno': None,
@@ -44,18 +42,6 @@ CROPS = {
     'brownie-cafe': None,
     'bento-cake-1': None,
     'bento-cake-2': None,
-    # Perfis das duas unidades no Google Maps (coletadas em 10/11/2026).
-    'vitrine-paes-leao': None,
-    'salao-leao': None,
-    'letreiro-noite': (0, 150, None, -260),
-    'mil-folhas': None,
-    'misto-quente': (0, 500, None, -300),
-    'cafe-pao-queijo': None,
-    'bombons': None,
-    'rocambole': None,
-    'sonhos': None,
-    'vitrine-doces-anhanguera': None,
-    'balcao-anhanguera': (0, 300, None, -250),
 }
 
 

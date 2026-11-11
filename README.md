@@ -15,7 +15,7 @@ npm run images    # regenera public/img a partir de assets-src (Python + Pillow 
 
 Site estático em Vite, três páginas: `index.html`, `cardapio.html`, `encomendas.html`.
 Sem framework e sem biblioteca de animação: o JavaScript inteiro tem cerca de 8 KB.
-A publicação no GitHub Pages está pronta em `.github/workflows/pages.yml` (ainda não publicada).
+A publicação no GitHub Pages está pronta em `.github/workflows/pages.yml` (repositório APXWeb/braghetto-proposta).
 
 ## Onde mexer
 

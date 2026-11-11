@@ -1,8 +1,8 @@
 // HTML gerado no build a partir de src/data/*. O vite.config.js troca cada {{chave}} das
 // páginas por estes blocos, então o site publicado é HTML estático e cada fato vive num só lugar.
 import images from './data/images.json' with { type: 'json' }
-import { site, units, timeline, photoCredits, waLink, telLink } from './data/site.js'
-import { categories, asItem, itemCount } from './data/cardapio.js'
+import { site, units, timeline, photoCredits, waLink, telLink, hasHours, hasWhatsApp } from './data/site.js'
+import { categories, asItem, isConfirmed, isListed, SHOW_PENDING } from './data/cardapio.js'
 
 // Enquanto for proposta, o site não deve ser indexado. Na publicação oficial, troque para false.
 export const PROPOSAL = true
@@ -89,7 +89,7 @@ function header(page) {
       ${units
         .map(
           (u) => `<div><p class="eyebrow">${u.name}</p>
-        <a href="${waLink(u)}" ${ext}>${icon.wa} WhatsApp ${u.whatsapp}</a>
+        ${hasWhatsApp(u) ? `<a href="${waLink(u)}" ${ext}>${icon.wa} WhatsApp ${u.whatsapp}</a>` : ''}
         <a href="${telLink(u.phone)}">${icon.phone} ${u.phone}</a></div>`,
         )
         .join('')}
@@ -107,8 +107,14 @@ function mobileBar() {
 </nav>`
 }
 
+// Só os horários confirmados vão para o navegador (o "aberto agora" lê daqui).
+function hoursData() {
+  const data = units.filter(hasHours).map((u) => ({ id: u.id, hours: u.hours }))
+  return `<script type="application/json" id="hours-data">${JSON.stringify(data)}</script>`
+}
+
 function footer() {
-  return `
+  return `${hoursData()}
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
@@ -122,7 +128,7 @@ function footer() {
             (u) => `<div>
           <p class="eyebrow">${u.name}</p>
           <p>${u.street}<br>${u.district} · ${site.city}</p>
-          <p><a href="${telLink(u.phone)}">${u.phone}</a><br><a href="${waLink(u)}" ${ext}>WhatsApp ${u.whatsapp}</a></p>
+          <p><a href="${telLink(u.phone)}">${u.phone}</a>${hasWhatsApp(u) ? `<br><a href="${waLink(u)}" ${ext}>WhatsApp ${u.whatsapp}</a>` : ''}</p>
         </div>`,
           )
           .join('')}
@@ -164,7 +170,7 @@ const pages = {
   },
   'cardapio.html': {
     title: 'Cardápio · Panificadora Braghetto · Ribeirão Preto',
-    desc: `Pães, cafés, salgados, lanches, pães de metro, bolos e doces da Panificadora Braghetto: ${itemCount} itens do catálogo, com busca por nome e pedido pelo WhatsApp de cada unidade.`,
+    desc: 'Pães, cafés, salgados, lanches, pães de metro, bolos e doces da Panificadora Braghetto, com busca por nome. Consulte a disponibilidade direto com a unidade.',
     path: 'cardapio.html',
   },
   'encomendas.html': {
@@ -192,7 +198,7 @@ function schema() {
     '@type': 'Bakery',
     '@id': `${site.url}#${u.id}`,
     name: `${site.name} · ${u.name}`,
-    image: `${site.url}img/${u.photo}-800.webp`,
+    image: `${site.url}og.jpg`,
     telephone: `+55 ${u.phone}`,
     address: {
       '@type': 'PostalAddress',
@@ -205,7 +211,7 @@ function schema() {
     geo: { '@type': 'GeoCoordinates', latitude: u.geo.lat, longitude: u.geo.lng },
     hasMap: u.maps,
     parentOrganization: { '@id': `${site.url}#org` },
-    ...(u.hours ? { openingHoursSpecification: hoursLd(u.hours) } : {}),
+    ...(hasHours(u) ? { openingHoursSpecification: hoursLd(u.hours) } : {}),
   })
   const ld = {
     '@context': 'https://schema.org',
@@ -277,7 +283,7 @@ function heroUnits() {
         (u) => `<li>
       <a class="hu-name" href="./#unidades">${u.name.replace('Unidade ', '')}</a>
       <span class="hu-addr">${u.street}</span>
-      ${u.hours ? statusChip(u, 'status-sm') : `<a class="hu-link" href="${telLink(u.phone)}">${u.phone}</a>`}
+      ${hasHours(u) ? statusChip(u, 'status-sm') : `<a class="hu-link" href="${telLink(u.phone)}">${u.phone}</a>`}
     </li>`,
       )
       .join('')}
@@ -295,7 +301,6 @@ const homeCats = [
 ]
 
 function productShowcase() {
-  const count = (c) => c.groups.reduce((n, g) => n + g.items.length, 0)
   const rows = homeCats
     .map((h, i) => {
       const c = categories.find((x) => x.id === h.id)
@@ -305,9 +310,9 @@ function productShowcase() {
           <span class="pc-body">
             <span class="pc-title">${c.title}</span>
             <span class="pc-lead">${c.lead}</span>
-            <span class="pc-sample">${h.sample.join(', ')}</span>
+            ${SHOW_PENDING ? `<span class="pc-sample">${h.sample.join(', ')}</span>` : ''}
           </span>
-          <span class="pc-count">${count(c)} itens ${icon.arrow}</span>
+          <span class="pc-count">Ver itens ${icon.arrow}</span>
         </a>
         <div class="pc-photo-m" aria-hidden="true">${picture(h.photo, { alt: '', sizes: '100vw' })}</div>
       </li>`
@@ -344,8 +349,8 @@ function timelineList() {
 }
 
 function hoursTable(u) {
-  if (!u.hours) {
-    return `<p class="hours-pending">Horário de funcionamento: confirme com a unidade pelo telefone <a href="${telLink(u.phone)}">${u.phone}</a> ou pelo WhatsApp.</p>`
+  if (!hasHours(u)) {
+    return `<p class="hours-pending"><strong>Horário em confirmação.</strong> Antes de ir, ligue para a unidade: <a href="${telLink(u.phone)}">${u.phone}</a>.</p>`
   }
   const names = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
   const fmt = (h) => `${Math.floor(h)}h${h % 1 ? String(Math.round((h % 1) * 60)).padStart(2, '0') : ''}`
@@ -362,11 +367,11 @@ function unitCard(u) {
       <p class="unit-tag">${u.tag}</p>
       <h3 class="unit-name">${u.name}</h3>
       <p class="unit-addr">${u.street}<br>${u.district}, ${site.city} - ${site.state}, ${u.cep}</p>
-      ${u.hours ? statusChip(u) : ''}
+      ${hasHours(u) ? statusChip(u) : ''}
     </header>
     ${hoursTable(u)}
     <ul class="unit-contacts">
-      <li><a href="${waLink(u)}" ${ext}>${icon.wa}<span>WhatsApp <strong>${u.whatsapp}</strong></span></a></li>
+      ${hasWhatsApp(u) ? `<li><a href="${waLink(u)}" ${ext}>${icon.wa}<span>WhatsApp <strong>${u.whatsapp}</strong></span></a></li>` : ''}
       <li><a href="${telLink(u.phone)}">${icon.phone}<span>Telefone <strong>${u.phone}</strong></span></a></li>
     </ul>
     <div class="unit-actions">
@@ -381,16 +386,19 @@ function unitCard(u) {
 
 // ---------- cardápio ----------
 
+// Só entram os itens listados (ver SHOW_PENDING em src/data/cardapio.js); grupos e categorias
+// que ficarem vazios somem. Itens pendentes levam data-pending, só para conferência interna.
+const listed = categories
+  .map((c) => ({ ...c, groups: c.groups.map((g) => ({ ...g, items: g.items.filter(isListed) })).filter((g) => g.items.length) }))
+  .filter((c) => c.groups.length)
+
 function cardapioNav() {
-  return categories
-    .map((c) => `<li><a href="#${c.id}" data-cat-link="${c.id}">${c.title}</a></li>`)
-    .join('')
+  return listed.map((c) => `<li><a href="#${c.id}" data-cat-link="${c.id}">${c.title}</a></li>`).join('')
 }
 
 function cardapioSections() {
-  return categories
+  return listed
     .map((c) => {
-      const n = c.groups.reduce((a, g) => a + g.items.length, 0)
       const groups = c.groups
         .map(
           (g) => `
@@ -398,10 +406,10 @@ function cardapioSections() {
           <h3 class="mg-title">${g.title}</h3>
           ${g.note ? `<p class="mg-note">${g.note}</p>` : ''}
           <ul class="mg-items">${g.items
-            .map(asItem)
-            .map((it) => {
+            .map((raw) => {
+              const it = asItem(raw)
               const thumb = it.photo ? picture(it.photo, { alt: '', sizes: '56px', cls: 'mi-thumb' }) : ''
-              return `<li data-item data-name="${esc(it.name)}"${it.photo ? ` data-photo="${it.photo}"` : ''}${c.online ? ' data-online' : ''}>
+              return `<li data-item data-name="${esc(it.name)}"${it.photo ? ` data-photo="${it.photo}"` : ''}${c.online ? ' data-online' : ''}${isConfirmed(raw) ? '' : ' data-pending'}>
                 <button type="button" class="mi${it.photo ? ' has-photo' : ''}" data-item-btn>
                   ${thumb}<span class="mi-text"><span class="mi-name">${esc(it.name)}</span>${it.note ? `<span class="mi-note">${esc(it.note)}</span>` : ''}</span>
                   <span class="mi-act" aria-hidden="true">${c.online ? 'Pedir' : 'Consultar'}</span>
@@ -413,15 +421,14 @@ function cardapioSections() {
         .join('')
       return `
     <section class="cat" id="${c.id}" data-cat aria-labelledby="t-${c.id}">
-      <header class="cat-head">
-        <div class="cat-photo">${picture(c.cover, { alt: c.alt, sizes: '(min-width: 1000px) 38vw, 100vw' })}</div>
+      <header class="cat-head${c.cover ? '' : ' no-photo'}">
+        ${c.cover ? `<div class="cat-photo">${picture(c.cover, { alt: c.alt, sizes: '(min-width: 1000px) 30vw, 100vw' })}</div>` : ''}
         <div class="cat-intro">
-          <p class="eyebrow">${n} itens</p>
           <h2 id="t-${c.id}" class="cat-title">${c.title}</h2>
           <p class="cat-lead">${c.lead}</p>
           ${
             c.online
-              ? `<a class="btn btn-solid" href="${site.orderOnline}" ${ext}>${icon.bag} Pedir marmitex online</a><p class="fine">Unidade Anhanguera · retirada ou entrega · cardápio e valores do dia no pedido online.</p>`
+              ? `<a class="btn btn-solid" href="${site.orderOnline}" ${ext}>${icon.bag} Pedir marmitex online</a><p class="fine">Unidade Anhanguera, com retirada ou entrega. O cardápio e os valores do dia ficam no pedido online.</p>`
               : ''
           }
         </div>
@@ -441,7 +448,8 @@ function unitOptions() {
 }
 
 function unitsData() {
-  const data = units.map((u) => ({ id: u.id, name: u.name, whatsapp: u.whatsapp, wa: waLink(u), phone: u.phone }))
+  // Unidade sem WhatsApp confirmado vai para o navegador sem o número: nenhum script consegue montar o link.
+  const data = units.map((u) => ({ id: u.id, name: u.name, whatsapp: hasWhatsApp(u) ? u.whatsapp : null, wa: hasWhatsApp(u) ? waLink(u) : null, phone: u.phone, tel: telLink(u.phone) }))
   return `<script type="application/json" id="units-data">${JSON.stringify(data)}</script>`
 }
 
@@ -450,7 +458,7 @@ function encContacts() {
     .map(
       (u) => `<div class="enc-unit">
       <p class="eyebrow">${u.name}</p>
-      <a href="${waLink(u, 'Olá! Gostaria de fazer uma encomenda.')}" ${ext}>${icon.wa} <span>${u.whatsapp}</span></a>
+      ${hasWhatsApp(u) ? `<a href="${waLink(u, 'Olá! Gostaria de fazer uma encomenda.')}" ${ext}>${icon.wa} <span>${u.whatsapp}</span></a>` : ''}
       <a href="${telLink(u.phone)}">${icon.phone} <span>${u.phone}</span></a>
     </div>`,
     )
@@ -460,7 +468,13 @@ function encContacts() {
 function quickLinks() {
   return (
     `<a class="quick-card quick-dark" href="${site.orderOnline}" ${ext}>${icon.bag}<span><strong>Marmitex do dia</strong><small>Pedido online · retirada ou entrega</small></span>${icon.out}</a>` +
-    units.map((u) => `<a class="quick-card" href="${waLink(u, 'Olá! Gostaria de saber o que tem disponível hoje.')}" ${ext}>${icon.wa}<span><strong>Perguntar à ${u.name.replace('Unidade ', 'unidade ')}</strong><small>WhatsApp ${u.whatsapp}</small></span>${icon.arrow}</a>`).join('')
+    units
+      .map((u) =>
+        hasWhatsApp(u)
+          ? `<a class="quick-card" href="${waLink(u, 'Olá! Gostaria de saber o que tem disponível hoje.')}" ${ext}>${icon.wa}<span><strong>Perguntar à ${u.name.replace('Unidade ', 'unidade ')}</strong><small>WhatsApp ${u.whatsapp}</small></span>${icon.arrow}</a>`
+          : `<a class="quick-card" href="${telLink(u.phone)}">${icon.phone}<span><strong>Ligar para a ${u.name.replace('Unidade ', 'unidade ')}</strong><small>${u.phone}</small></span>${icon.arrow}</a>`,
+      )
+      .join('')
   )
 }
 
@@ -476,7 +490,6 @@ export function blocks(page = 'index.html') {
     marmitexList: marmitexList(),
     timeline: timelineList(),
     units: units.map((u) => unitCard(u)).join(''),
-    itemCount: String(itemCount),
     quickLinks: quickLinks(),
     cardapioNav: cardapioNav(),
     cardapioSections: cardapioSections(),
@@ -495,32 +508,24 @@ export function blocks(page = 'index.html') {
     anhPhone: anh.phone,
     anhTel: telLink(anh.phone),
     'img-hero': picture('paes-balcao', { alt: 'Pães franceses, bisnagas e pães caseiros da Braghetto sobre a bancada enfarinhada', eager: true, sizes: '(min-width: 1000px) 40vw, 86vw' }),
-    'img-hero-coin': picture('cafe-pao-queijo', { alt: 'Xícara de café com pães de queijo', eager: true, sizes: '(min-width: 1000px) 15vw, 34vw' }),
-    'img-intro-a': picture('vitrine-paes-leao', { alt: 'Vitrine de pães, roscas e croissants na unidade Leão XIII', sizes: '(min-width: 1000px) 30vw, 70vw' }),
+    'img-hero-coin': picture('cafe-xicara', { alt: 'Xícara de café com leite, grãos de café e pães de queijo', eager: true, sizes: '(min-width: 1000px) 30vw, 60vw' }),
+    'img-intro-a': picture('producao-assadeira', { alt: 'Assadeira com dezenas de pãezinhos em espiral dourados, produção da unidade Leão XIII', sizes: '(min-width: 1000px) 30vw, 70vw' }),
     'img-intro-b': picture('producao-caracois', { alt: 'Pães doces em espiral com gotas de chocolate, saídos do forno', sizes: '(min-width: 1000px) 22vw, 52vw' }),
-    'img-salao': picture('salao-leao', { alt: 'Salão da unidade Leão XIII: mesas de madeira, vitrines de pães e doces e o balcão ao fundo', sizes: '100vw' }),
     'img-manha': picture('tapioca-caneca', { alt: 'Tapioca recheada servida no prato, com a caneca esmaltada da Braghetto ao fundo', sizes: '(min-width: 1000px) 40vw, 100vw' }),
-    'img-lanche': picture('misto-quente', { alt: 'Misto quente no pão francês, cortado ao meio', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-doce': picture('mil-folhas', { alt: 'Mil-folhas com doce de leite e morango, com o letreiro da Braghetto ao fundo', sizes: '(min-width: 1000px) 24vw, 100vw' }),
-    'img-almoco': picture('buffet-cubas', { alt: 'Cubas do bufê de almoço self-service', sizes: '100vw' }),
+    'img-tarde': picture('brownie-cafe', { alt: 'Brownie, café e sobremesa servidos na mesa, vistos de cima', sizes: '(min-width: 1000px) 46vw, 100vw' }),
+    'img-doce': picture('torta-maracuja', { alt: 'Fatia de torta de maracujá', sizes: '(min-width: 1000px) 46vw, 100vw' }),
     'img-enc-a': picture('bolo-chocolate', { alt: 'Bolo de chocolate confeitado com cerejas', sizes: '(min-width: 1000px) 55vw, 100vw' }),
-    'img-enc-b': picture('rocambole', { alt: 'Rocambole com cobertura crocante, chantili e cerejas', sizes: '(min-width: 1000px) 34vw, 60vw' }),
+    'img-enc-b': picture('doces-glacados', { alt: 'Doces com cobertura de glacê e raspas de limão', sizes: '(min-width: 1000px) 34vw, 60vw' }),
     'img-enc-c': picture('bento-cake-1', { alt: 'Bentô cake decorado com um dinossauro verde e um nome escrito', sizes: '(min-width: 1000px) 20vw, 40vw' }),
     'img-historia': picture('fachada-desenho', { alt: 'Desenho a lápis da fachada da Panificadora Braghetto na esquina da Rua Domingos Padovan', sizes: '(min-width: 1000px) 36vw, 100vw' }),
-    'img-casa-a': picture('fachada-leao', { alt: 'Fachada da unidade Leão XIII, com parede de pedra e o emblema da Braghetto', sizes: '(min-width: 1000px) 62vw, 100vw' }),
-    'img-casa-b': picture('letreiro-noite', { alt: 'Letreiro iluminado da Panificadora Braghetto à noite, na unidade Leão XIII', sizes: '(min-width: 1000px) 30vw, 50vw' }),
-    'img-casa-c': picture('vitrine-doces-anhanguera', { alt: 'Vitrine de tortas, pudins e doces na unidade Anhanguera', sizes: '(min-width: 1000px) 30vw, 50vw' }),
-    'img-casa-d': picture('fachada-anhanguera', { alt: 'Fachada de tijolos da unidade Anhanguera, com o letreiro Panificadora Braghetto desde 1992', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-casa-e': picture('balcao-anhanguera', { alt: 'Balcão de atendimento e mesas da unidade Anhanguera', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-ig-a': picture('bento-cake-2', { alt: 'Bentô cake branco com confeitos coloridos e mensagem escrita em chocolate', sizes: '(min-width: 1000px) 22vw, 50vw' }),
-    'img-ig-b': picture('producao-tranca', { alt: 'Pães trançados e pães com gotas de chocolate na assadeira', sizes: '(min-width: 1000px) 22vw, 50vw' }),
-    'img-ig-c': picture('brownie-cafe', { alt: 'Brownie, café e sobremesa servidos na mesa, vistos de cima', sizes: '(min-width: 1000px) 22vw, 50vw' }),
-    'img-ig-d': picture('producao-paes-forno', { alt: 'Pães franceses dourados lado a lado na esteira do forno', sizes: '(min-width: 1000px) 22vw, 50vw' }),
-    'img-enc-hero': picture('sonhos', { alt: 'Sonhos recheados de creme, polvilhados com açúcar', eager: true, sizes: '(min-width: 1000px) 30vw, 60vw' }),
-    'img-enc-salgado': picture('torta-salgada', { alt: 'Fatia de torta salgada gratinada', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-enc-pao': picture('producao-assadeira', { alt: 'Assadeira com dezenas de pãezinhos em espiral dourados', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-enc-doce': picture('bombons', { alt: 'Bombons de chocolate recheados', sizes: '(min-width: 1000px) 30vw, 100vw' }),
-    'img-enc-cafe': picture('cafe-pao-queijo', { alt: 'Café com pães de queijo', sizes: '(min-width: 1000px) 30vw, 100vw' }),
+    'img-ig-a': picture('bento-cake-2', { alt: 'Bentô cake branco com confeitos coloridos e mensagem escrita em chocolate', sizes: '(min-width: 1000px) 30vw, 50vw' }),
+    'img-ig-b': picture('producao-tranca', { alt: 'Pães trançados e pães com gotas de chocolate na assadeira', sizes: '(min-width: 1000px) 30vw, 50vw' }),
+    'img-ig-c': picture('producao-paes-forno', { alt: 'Pães franceses dourados lado a lado na esteira do forno', sizes: '(min-width: 1000px) 30vw, 50vw' }),
+    'img-enc-hero': picture('bento-cake-2', { alt: 'Bentô cake branco com confeitos coloridos e mensagem escrita em chocolate', eager: true, sizes: '(min-width: 1000px) 30vw, 60vw' }),
+    'img-enc-salgado': picture('torta-salgada', { alt: 'Fatia de torta salgada gratinada', sizes: '(min-width: 1000px) 55vw, 100vw' }),
+    'img-enc-pao': picture('producao-paes-gergelim', { alt: 'Pães com gergelim recém-saídos do forno', sizes: '(min-width: 1000px) 46vw, 100vw' }),
+    'img-enc-doce': picture('brownies-cereja', { alt: 'Brownies com cobertura de chocolate e cereja', sizes: '(min-width: 1000px) 46vw, 100vw' }),
+    'img-enc-cafe': picture('cappuccino-chantilly', { alt: 'Cappuccino com chantili e canela em taça de vidro', sizes: '(min-width: 1000px) 55vw, 100vw' }),
     'i-out': icon.out,
   }
 }

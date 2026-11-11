@@ -5,7 +5,6 @@ import '@fontsource-variable/vollkorn/wght.css'
 import '@fontsource-variable/vollkorn/wght-italic.css'
 import '@fontsource-variable/instrument-sans/wght.css'
 import '../styles/main.css'
-import { units } from '../data/site.js'
 
 export const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -146,10 +145,11 @@ export function statusFor(unit, { day, hour, minute }) {
   return { open: false, text: `Fechado, abre amanhã às ${fmt(unit.hours[(day + 1) % 7].open)}` }
 }
 function initStatus() {
+  // Horários confirmados, gerados no build (ver hoursData em src/render.js).
+  const units = JSON.parse(document.getElementById('hours-data')?.textContent || '[]')
   const update = () => {
     const now = nowInSaoPaulo()
     units.forEach((u) => {
-      if (!u.hours) return
       const s = statusFor(u, now)
       document.querySelectorAll(`[data-status="${u.id}"]`).forEach((n) => {
         n.dataset.open = String(s.open)
